@@ -25,16 +25,6 @@ data class LearnItem(
 )
 
 /**
- * FAQ Question
- */
-data class Question(
-    val id: String,
-    val question: String,
-    val answer: String,
-    val categoryId: String
-)
-
-/**
  * FAQ Category
  */
 data class Category(
@@ -54,13 +44,13 @@ data class Tool(
 )
 
 /**
- * Flight status enum
+ * Flight status enum - simple version without resource dependencies
  */
-enum class FlightStatus(val labelRes: StringResource) {
-    ON_LAND(com.romanpolach.peacefulflight.kmp.generated.resources.Res.string.status_on_land),
-    BOARDING(com.romanpolach.peacefulflight.kmp.generated.resources.Res.string.status_boarding),
-    TAKEOFF(com.romanpolach.peacefulflight.kmp.generated.resources.Res.string.status_takeoff),
-    CRUISE(com.romanpolach.peacefulflight.kmp.generated.resources.Res.string.status_cruise),
-    TURBULENCE(com.romanpolach.peacefulflight.kmp.generated.resources.Res.string.status_turbulence),
-    LANDING(com.romanpolach.peacefulflight.kmp.generated.resources.Res.string.status_landing)
+enum class FlightStatus(val label: String) {
+    ON_LAND("On Land"),
+    BOARDING("Boarding"),
+    TAKEOFF("Takeoff"),
+    CRUISE("Cruising"),
+    TURBULENCE("Turbulence"),
+    LANDING("Landing")
 }

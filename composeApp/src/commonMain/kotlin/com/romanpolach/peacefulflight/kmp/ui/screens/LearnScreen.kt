@@ -42,13 +42,12 @@ import com.romanpolach.peacefulflight.kmp.model.LearnItem
 import com.romanpolach.peacefulflight.kmp.model.LearnSection
 import com.romanpolach.peacefulflight.kmp.ui.components.StandardTopBar
 import com.romanpolach.peacefulflight.kmp.viewmodel.LearnViewModel
-import org.jetbrains.compose.resources.DrawableResource
-import org.jetbrains.compose.resources.StringResource
 import org.jetbrains.compose.resources.painterResource
 import org.jetbrains.compose.resources.stringResource
 import org.koin.compose.viewmodel.koinViewModel
 import org.koin.core.annotation.KoinExperimentalAPI
-import peacefulflight.composeapp.generated.resources.*
+import peacefulflight.composeapp.generated.resources.Res
+import peacefulflight.composeapp.generated.resources.nav_learn
 
 /**
  * Learn screen with educational content about flying
@@ -103,8 +102,8 @@ fun LearnSectionCard(
     else
         MaterialTheme.colorScheme.surfaceContainer
 
-    val title = stringResource(resolveString(section.titleKey))
-    val imageRes = resolveDrawable(section.imageKey)
+    val title = stringResource(section.titleRes)
+    val imageRes = section.imageRes
 
     Card(
         colors = CardDefaults.cardColors(containerColor = cardColor),
@@ -206,7 +205,7 @@ fun LearnItemRow(
         verticalAlignment = Alignment.CenterVertically
     ) {
         Text(
-            text = stringResource(resolveString(item.questionKey)),
+            text = stringResource(item.questionRes),
             style = MaterialTheme.typography.bodyLarge,
             fontWeight = FontWeight.Normal,
             color = MaterialTheme.colorScheme.onSurface,
@@ -222,42 +221,3 @@ fun LearnItemRow(
         )
     }
 }
-
-// TODO: Create a cleaner way to resolve resources by key
-private fun resolveString(key: String): StringResource {
-    return when (key) {
-        "learn_section_takeoff" -> Res.string.learn_section_takeoff
-        "learn_section_flight" -> Res.string.learn_section_flight
-        "learn_section_landing" -> Res.string.learn_section_landing
-        "takeoff_q1" -> Res.string.takeoff_q1
-        "takeoff_q3" -> Res.string.takeoff_q3
-        "takeoff_q5" -> Res.string.takeoff_q5
-        "takeoff_q6" -> Res.string.takeoff_q6
-        "takeoff_q7" -> Res.string.takeoff_q7
-        "takeoff_q8" -> Res.string.takeoff_q8
-        "flight_q1" -> Res.string.flight_q1
-        "flight_q2" -> Res.string.flight_q2
-        "flight_q3" -> Res.string.flight_q3
-        "flight_q4" -> Res.string.flight_q4
-        "flight_q5" -> Res.string.flight_q5
-        "flight_q6" -> Res.string.flight_q6
-        "flight_q7" -> Res.string.flight_q7
-        "flight_q8" -> Res.string.flight_q8
-        "flight_q10" -> Res.string.flight_q10
-        "flight_q11" -> Res.string.flight_q11
-        "landing_q1" -> Res.string.landing_q1
-        "landing_q2" -> Res.string.landing_q2
-        "landing_q3" -> Res.string.landing_q3
-        else -> Res.string.nav_learn
-    }
-}
-
-private fun resolveDrawable(key: String?): DrawableResource? {
-    return when (key) {
-        "img_takeoff" -> Res.drawable.img_takeoff
-        "img_flight" -> Res.drawable.img_flight
-        "img_landing" -> Res.drawable.img_landing
-        else -> null
-    }
-}
-

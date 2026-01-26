@@ -13,8 +13,8 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.VolumeOff
-import androidx.compose.material.icons.filled.VolumeUp
+import androidx.compose.material.icons.automirrored.filled.VolumeOff
+import androidx.compose.material.icons.automirrored.filled.VolumeUp
 import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
@@ -42,7 +42,22 @@ import peacefulflight.composeapp.generated.resources.close_btn
 import peacefulflight.composeapp.generated.resources.congrats_msg
 import peacefulflight.composeapp.generated.resources.congrats_title
 import peacefulflight.composeapp.generated.resources.continue_btn
+import peacefulflight.composeapp.generated.resources.feedback_improving
+import peacefulflight.composeapp.generated.resources.feedback_steady
+import peacefulflight.composeapp.generated.resources.feedback_worsening
 import peacefulflight.composeapp.generated.resources.finish_btn
+import peacefulflight.composeapp.generated.resources.rtw2_intro
+import peacefulflight.composeapp.generated.resources.rtw2_step_1
+import peacefulflight.composeapp.generated.resources.rtw2_step_10
+import peacefulflight.composeapp.generated.resources.rtw2_step_11
+import peacefulflight.composeapp.generated.resources.rtw2_step_2
+import peacefulflight.composeapp.generated.resources.rtw2_step_3
+import peacefulflight.composeapp.generated.resources.rtw2_step_4
+import peacefulflight.composeapp.generated.resources.rtw2_step_5
+import peacefulflight.composeapp.generated.resources.rtw2_step_6
+import peacefulflight.composeapp.generated.resources.rtw2_step_7
+import peacefulflight.composeapp.generated.resources.rtw2_step_8
+import peacefulflight.composeapp.generated.resources.rtw2_step_9
 import peacefulflight.composeapp.generated.resources.rtw2_title
 
 @OptIn(KoinExperimentalAPI::class)
@@ -54,10 +69,31 @@ fun RidingTheWaveScreen(
     val uiState by viewModel.uiState.collectAsState()
     val scrollState = rememberScrollState()
 
-    // Helper to get current text string for TTS
-    val currentText = stringResource(uiState.currentTextRes)
+    // Initialize steps
+    val steps = listOf(
+        Res.string.rtw2_intro,
+        Res.string.rtw2_step_1,
+        Res.string.rtw2_step_2,
+        Res.string.rtw2_step_3,
+        Res.string.rtw2_step_4,
+        Res.string.rtw2_step_5,
+        Res.string.rtw2_step_6,
+        Res.string.rtw2_step_7,
+        Res.string.rtw2_step_8,
+        Res.string.rtw2_step_9,
+        Res.string.rtw2_step_10,
+        Res.string.rtw2_step_11
+    )
 
-    // Auto-play logic: When text changes, notify ViewModel to potentially speak it
+    LaunchedEffect(Unit) {
+        viewModel.initialize(steps)
+    }
+
+    // Handle uninitialized state
+    val currentTextRes = uiState.currentTextRes ?: return
+    val currentText = stringResource(currentTextRes)
+
+    // Auto-play logic
     LaunchedEffect(currentText) {
         viewModel.onStepContentChanged(currentText)
     }
@@ -113,7 +149,6 @@ fun RidingTheWaveScreen(
             horizontalAlignment = Alignment.CenterHorizontally,
             verticalArrangement = Arrangement.SpaceBetween
         ) {
-            // Content Area
             Column(
                 modifier = Modifier
                     .weight(1f)
@@ -127,7 +162,6 @@ fun RidingTheWaveScreen(
                     horizontalArrangement = Arrangement.Center,
                     modifier = Modifier.fillMaxWidth()
                 ) {
-                    // TTS Button
                     IconButton(
                         onClick = { viewModel.toggleTts(currentText) },
                         modifier = Modifier
@@ -138,7 +172,7 @@ fun RidingTheWaveScreen(
                             )
                     ) {
                         Icon(
-                            imageVector = if (uiState.isAutoPlayEnabled) Icons.Default.VolumeOff else Icons.Default.VolumeUp,
+                            imageVector = if (uiState.isAutoPlayEnabled) Icons.AutoMirrored.Filled.VolumeOff else Icons.AutoMirrored.Filled.VolumeUp,
                             contentDescription = "Read aloud",
                             tint = MaterialTheme.colorScheme.primary,
                             modifier = Modifier.size(28.dp)
@@ -175,7 +209,13 @@ fun RidingTheWaveScreen(
                 AnxietyRatingBar(
                     rating = uiState.anxietyScore,
                     onRatingChanged = { viewModel.updateAnxietyScore(it) },
-                    onSubmitRating = { viewModel.submitRating() },
+                    onSubmitRating = {
+                        viewModel.submitRating(
+                            Res.string.feedback_improving,
+                            Res.string.feedback_worsening,
+                            Res.string.feedback_steady
+                        )
+                    },
                     feedbackMessage = uiState.feedbackMessageRes?.let { stringResource(it) }
                 )
             }

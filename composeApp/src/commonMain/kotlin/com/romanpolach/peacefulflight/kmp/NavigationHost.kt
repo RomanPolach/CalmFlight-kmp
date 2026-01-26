@@ -14,6 +14,63 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import com.romanpolach.peacefulflight.kmp.ui.navigation.BottomNavItem
 import com.romanpolach.peacefulflight.kmp.ui.navigation.Screen
+import peacefulflight.composeapp.generated.resources.Res
+import peacefulflight.composeapp.generated.resources.am_intro
+import peacefulflight.composeapp.generated.resources.am_part_1
+import peacefulflight.composeapp.generated.resources.am_part_2
+import peacefulflight.composeapp.generated.resources.am_part_3
+import peacefulflight.composeapp.generated.resources.am_part_4
+import peacefulflight.composeapp.generated.resources.am_part_5
+import peacefulflight.composeapp.generated.resources.am_part_6
+import peacefulflight.composeapp.generated.resources.am_title
+import peacefulflight.composeapp.generated.resources.cloud_meditation_footer
+import peacefulflight.composeapp.generated.resources.cloud_meditation_part_1
+import peacefulflight.composeapp.generated.resources.cloud_meditation_part_2
+import peacefulflight.composeapp.generated.resources.cloud_meditation_part_3
+import peacefulflight.composeapp.generated.resources.cloud_meditation_part_4
+import peacefulflight.composeapp.generated.resources.cloud_meditation_part_5
+import peacefulflight.composeapp.generated.resources.cloud_meditation_part_6
+import peacefulflight.composeapp.generated.resources.cloud_meditation_part_7
+import peacefulflight.composeapp.generated.resources.cloud_meditation_part_8
+import peacefulflight.composeapp.generated.resources.cloud_meditation_part_9
+import peacefulflight.composeapp.generated.resources.ct_investigation_part_1
+import peacefulflight.composeapp.generated.resources.ct_investigation_part_2
+import peacefulflight.composeapp.generated.resources.ct_investigation_part_3
+import peacefulflight.composeapp.generated.resources.ct_investigation_part_4
+import peacefulflight.composeapp.generated.resources.ct_investigation_part_5
+import peacefulflight.composeapp.generated.resources.ct_investigation_part_6
+import peacefulflight.composeapp.generated.resources.ct_investigation_part_7
+import peacefulflight.composeapp.generated.resources.ct_title
+import peacefulflight.composeapp.generated.resources.ftf_title
+import peacefulflight.composeapp.generated.resources.ptw_intro
+import peacefulflight.composeapp.generated.resources.ptw_step_1
+import peacefulflight.composeapp.generated.resources.ptw_step_2
+import peacefulflight.composeapp.generated.resources.ptw_step_3
+import peacefulflight.composeapp.generated.resources.ptw_step_4
+import peacefulflight.composeapp.generated.resources.ptw_step_5
+import peacefulflight.composeapp.generated.resources.ptw_step_6
+import peacefulflight.composeapp.generated.resources.ptw_title
+import peacefulflight.composeapp.generated.resources.sca_intro
+import peacefulflight.composeapp.generated.resources.sca_step_1
+import peacefulflight.composeapp.generated.resources.sca_step_2
+import peacefulflight.composeapp.generated.resources.sca_step_3
+import peacefulflight.composeapp.generated.resources.sca_step_4
+import peacefulflight.composeapp.generated.resources.sca_step_5
+import peacefulflight.composeapp.generated.resources.sca_step_6
+import peacefulflight.composeapp.generated.resources.sca_step_7
+import peacefulflight.composeapp.generated.resources.sca_title
+import peacefulflight.composeapp.generated.resources.wo2_intro
+import peacefulflight.composeapp.generated.resources.wo2_step_1
+import peacefulflight.composeapp.generated.resources.wo2_step_10
+import peacefulflight.composeapp.generated.resources.wo2_step_2
+import peacefulflight.composeapp.generated.resources.wo2_step_3
+import peacefulflight.composeapp.generated.resources.wo2_step_4
+import peacefulflight.composeapp.generated.resources.wo2_step_5
+import peacefulflight.composeapp.generated.resources.wo2_step_6
+import peacefulflight.composeapp.generated.resources.wo2_step_7
+import peacefulflight.composeapp.generated.resources.wo2_step_8
+import peacefulflight.composeapp.generated.resources.wo2_step_9
+import peacefulflight.composeapp.generated.resources.wo2_title
 
 /**
  * Navigation host for the app - matches original exactly
@@ -39,9 +96,10 @@ fun NavigationHost(
                     when (toolId) {
                         "3" -> navController.navigate(Screen.GForceMonitorStandalone.route)
                         "5" -> navController.navigate(Screen.RidingTheWave.route)
+                        "6" -> navController.navigate(Screen.PostponeTheWorry.route)
+                        "7" -> navController.navigate(Screen.WorryOlympics.route)
                         "8" -> navController.navigate(Screen.FacingTheFear.route)
-                        "9" -> navController.navigate(Screen.RealityCheck.route)
-                        "10" -> navController.navigate(Screen.SafetyFacts.route)
+                        "13" -> navController.navigate(Screen.CatastrophicThinking.route)
                     }
                 },
                 onNavigateToLearn = { itemId ->
@@ -61,7 +119,7 @@ fun NavigationHost(
         composable(BottomNavItem.Sos.route) {
             com.romanpolach.peacefulflight.kmp.ui.screens.SosScreen(
                 onNavigateToPanic = {
-                    navController.navigate(Screen.RidingTheWave.route)
+                    navController.navigate(Screen.FacingTheFear.route)
                 },
                 onNavigateToHelpOptions = {
                     navController.navigate(Screen.HelpOptions.route)
@@ -151,7 +209,12 @@ fun NavigationHost(
                 Res.string.cloud_meditation_part_2,
                 Res.string.cloud_meditation_part_3,
                 Res.string.cloud_meditation_part_4,
-                Res.string.cloud_meditation_part_5
+                Res.string.cloud_meditation_part_5,
+                Res.string.cloud_meditation_part_6,
+                Res.string.cloud_meditation_part_7,
+                Res.string.cloud_meditation_part_8,
+                Res.string.cloud_meditation_part_9,
+                Res.string.cloud_meditation_footer
             )
             com.romanpolach.peacefulflight.kmp.ui.screens.GuidedInterventionScreen(
                 titleRes = Res.string.ftf_title,
@@ -186,11 +249,38 @@ fun NavigationHost(
         }
 
         composable(Screen.SelfCompassion.route) {
-            PlaceholderScreen("Self-Compassion", "Meet fear with kindness")
+            val steps = listOf(
+                Res.string.sca_intro,
+                Res.string.sca_step_1,
+                Res.string.sca_step_2,
+                Res.string.sca_step_3,
+                Res.string.sca_step_4,
+                Res.string.sca_step_5,
+                Res.string.sca_step_6,
+                Res.string.sca_step_7
+            )
+            com.romanpolach.peacefulflight.kmp.ui.screens.GuidedInterventionScreen(
+                titleRes = Res.string.sca_title,
+                steps = steps,
+                onFinish = { navController.popBackStack() }
+            )
         }
 
         composable(Screen.CatastrophicThinking.route) {
-            PlaceholderScreen("Catastrophic Thinking", "Investigate your worries")
+            val steps = listOf(
+                Res.string.ct_investigation_part_1,
+                Res.string.ct_investigation_part_2,
+                Res.string.ct_investigation_part_3,
+                Res.string.ct_investigation_part_4,
+                Res.string.ct_investigation_part_5,
+                Res.string.ct_investigation_part_6,
+                Res.string.ct_investigation_part_7
+            )
+            com.romanpolach.peacefulflight.kmp.ui.screens.GuidedInterventionScreen(
+                titleRes = Res.string.ct_title,
+                steps = steps,
+                onFinish = { navController.popBackStack() }
+            )
         }
 
         composable(Screen.VoiceSettings.route) {

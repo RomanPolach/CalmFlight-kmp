@@ -27,7 +27,7 @@ import org.jetbrains.compose.resources.stringResource
 import org.koin.compose.viewmodel.koinViewModel
 import org.koin.core.annotation.KoinExperimentalAPI
 import peacefulflight.composeapp.generated.resources.Res
-import peacefulflight.composeapp.generated.resources.tool_gforce
+import peacefulflight.composeapp.generated.resources.g_force_monitor
 
 @OptIn(KoinExperimentalAPI::class)
 @Composable
@@ -48,7 +48,7 @@ fun GForceScreen(
     Scaffold(
         topBar = {
             StandardTopBar(
-                title = stringResource(Res.string.tool_gforce),
+                title = stringResource(Res.string.g_force_monitor),
                 onBackClick = onBackClick
             )
         },

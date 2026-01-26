@@ -1,13 +1,23 @@
 package com.romanpolach.peacefulflight.kmp.ui.components
 
-import androidx.compose.animation.core.*
 import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material3.*
-import androidx.compose.runtime.*
+import androidx.compose.material3.Card
+import androidx.compose.material3.CardDefaults
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Text
+import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -22,7 +32,14 @@ import androidx.compose.ui.unit.dp
 import com.romanpolach.peacefulflight.kmp.utils.GForceStatus
 import com.romanpolach.peacefulflight.kmp.viewmodel.GForceUiState
 import org.jetbrains.compose.resources.stringResource
-import peacefulflight.composeapp.generated.resources.*
+import peacefulflight.composeapp.generated.resources.Res
+import peacefulflight.composeapp.generated.resources.g_force_monitor
+import peacefulflight.composeapp.generated.resources.perfectly_safe
+import peacefulflight.composeapp.generated.resources.safe_operating_zone
+import peacefulflight.composeapp.generated.resources.status_bumpy
+import peacefulflight.composeapp.generated.resources.status_light_bumps
+import peacefulflight.composeapp.generated.resources.status_moderate
+import peacefulflight.composeapp.generated.resources.status_smooth
 
 @Composable
 fun GForceMonitorCard(
@@ -67,7 +84,7 @@ fun GForceMonitorCard(
                             color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.6f)
                         )
                         Text(
-                            text = "${"%.2f".format(uiState.displayedGForce)} G",
+                            text = "${uiState.displayedGForce.formatGForce()} G",
                             style = MaterialTheme.typography.headlineMedium,
                             color = MaterialTheme.colorScheme.primary,
                             fontWeight = FontWeight.Bold
@@ -89,7 +106,7 @@ fun GForceMonitorCard(
                             color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.5f)
                         )
                         Text(
-                            text = "${"%.2f".format(uiState.minReading)} G",
+                            text = "${uiState.minReading.formatGForce()} G",
                             style = MaterialTheme.typography.bodyMedium,
                             color = MaterialTheme.colorScheme.primary.copy(alpha = 0.8f),
                             fontWeight = FontWeight.Bold
@@ -102,7 +119,7 @@ fun GForceMonitorCard(
                             color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.5f)
                         )
                         Text(
-                            text = "${"%.2f".format(uiState.maxReading)} G",
+                            text = "${uiState.maxReading.formatGForce()} G",
                             style = MaterialTheme.typography.bodyMedium,
                             color = MaterialTheme.colorScheme.primary.copy(alpha = 0.8f),
                             fontWeight = FontWeight.Bold
@@ -235,7 +252,7 @@ fun GForceMonitorCard(
 }
 
 // Extension to format floats in multiplatform
-private fun Float.format(digits: Int): String {
-    val multiplier = kotlin.math.pow(10.0, digits.toDouble())
-    return (kotlin.math.round(this * multiplier) / multiplier).toString()
+private fun Float.formatGForce(): String {
+    val rounded = (kotlin.math.round(this * 100) / 100.0)
+    return rounded.toString()
 }

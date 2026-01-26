@@ -7,11 +7,10 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 import org.jetbrains.compose.resources.StringResource
-import peacefulflight.composeapp.generated.resources.*
 
 data class RidingTheWaveUiState(
     val currentStepIndex: Int = 0,
-    val currentTextRes: StringResource = Res.string.rtw2_intro,
+    val currentTextRes: StringResource? = null,
     val isLastStep: Boolean = false,
     val anxietyScore: Float = 5f,
     val feedbackMessageRes: StringResource? = null,
@@ -23,25 +22,27 @@ class RidingTheWaveViewModel(
     private val ttsManager: TtsManager
 ) : ViewModel() {
 
-    private val steps = listOf(
-        Res.string.rtw2_intro,
-        Res.string.rtw2_step_1,
-        Res.string.rtw2_step_2,
-        Res.string.rtw2_step_3,
-        Res.string.rtw2_step_4,
-        Res.string.rtw2_step_5,
-        Res.string.rtw2_step_6,
-        Res.string.rtw2_step_7,
-        Res.string.rtw2_step_8,
-        Res.string.rtw2_step_9,
-        Res.string.rtw2_step_10,
-        Res.string.rtw2_step_11
-    )
+    private var steps: List<StringResource> = emptyList()
+    private var isInitialized = false
 
     private val _uiState = MutableStateFlow(RidingTheWaveUiState())
     val uiState: StateFlow<RidingTheWaveUiState> = _uiState.asStateFlow()
 
     private val anxietyHistory = mutableListOf<Int>()
+
+    fun initialize(stepResources: List<StringResource>) {
+        if (!isInitialized && stepResources.isNotEmpty()) {
+            steps = stepResources
+            _uiState.update {
+                it.copy(
+                    currentStepIndex = 0,
+                    currentTextRes = stepResources[0],
+                    isLastStep = stepResources.size == 1
+                )
+            }
+            isInitialized = true
+        }
+    }
 
     fun toggleTts(text: String) {
         if (_uiState.value.isAutoPlayEnabled) {
@@ -53,7 +54,6 @@ class RidingTheWaveViewModel(
         }
     }
 
-    // Called by UI when the step content changes (e.g. after nextStep)
     fun onStepContentChanged(text: String) {
         if (_uiState.value.isAutoPlayEnabled) {
             ttsManager.speak(text)
@@ -61,7 +61,7 @@ class RidingTheWaveViewModel(
     }
 
     fun nextStep() {
-        ttsManager.stop() // Stop previous audio immediately
+        ttsManager.stop()
         val currentIndex = _uiState.value.currentStepIndex
         if (currentIndex < steps.size - 1) {
             val newIndex = currentIndex + 1
@@ -79,16 +79,19 @@ class RidingTheWaveViewModel(
         _uiState.update { it.copy(anxietyScore = score) }
     }
 
-    fun submitRating() {
+    fun submitRating(
+        feedbackImproving: StringResource,
+        feedbackWorsening: StringResource,
+        feedbackSteady: StringResource
+    ) {
         val currentScore = _uiState.value.anxietyScore.toInt()
         anxietyHistory.add(currentScore)
 
-        // Simple feedback logic
         val firstScore = anxietyHistory.firstOrNull() ?: currentScore
         val feedback = when {
-            currentScore < firstScore -> Res.string.feedback_improving
-            currentScore > firstScore -> Res.string.feedback_worsening
-            else -> Res.string.feedback_steady
+            currentScore < firstScore -> feedbackImproving
+            currentScore > firstScore -> feedbackWorsening
+            else -> feedbackSteady
         }
         _uiState.update { it.copy(feedbackMessageRes = feedback) }
     }
@@ -97,7 +100,6 @@ class RidingTheWaveViewModel(
         val startScore = anxietyHistory.firstOrNull()
         val endScore = anxietyHistory.lastOrNull()
 
-        // Simple logic: If anxiety dropped by at least 2 points OR is low (<= 4), consider it managed.
         if (startScore != null && endScore != null && (startScore - endScore >= 2)) {
             _uiState.update { it.copy(showSuccessDialog = true) }
         } else {
