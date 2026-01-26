@@ -7,19 +7,25 @@ import androidx.activity.enableEdgeToEdge
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.tooling.preview.Preview
-import java.lang.ref.WeakReference
 
 class MainActivity : ComponentActivity() {
 
     private var permissionCallback: ((Boolean) -> Unit)? = null
+    private var multiplePermissionsCallback: ((Map<String, Boolean>) -> Unit)? = null
+
     private val requestPermissionLauncher = registerForActivityResult(
         ActivityResultContracts.RequestPermission()
     ) { isGranted ->
         permissionCallback?.invoke(isGranted)
     }
 
+    private val requestMultiplePermissionsLauncher = registerForActivityResult(
+        ActivityResultContracts.RequestMultiplePermissions()
+    ) { result ->
+        multiplePermissionsCallback?.invoke(result)
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
-        instance = WeakReference(this)
         enableEdgeToEdge()
         super.onCreate(savedInstanceState)
 
@@ -33,16 +39,12 @@ class MainActivity : ComponentActivity() {
         requestPermissionLauncher.launch(permission)
     }
 
-    override fun onDestroy() {
-        super.onDestroy()
-        if (instance?.get() == this) {
-            instance = null
-        }
-    }
-
-    companion object {
-        private var instance: WeakReference<MainActivity>? = null
-        fun getCurrentActivity(): MainActivity? = instance?.get()
+    fun requestMultiplePermissions(
+        permissions: Array<String>,
+        callback: (Map<String, Boolean>) -> Unit
+    ) {
+        multiplePermissionsCallback = callback
+        requestMultiplePermissionsLauncher.launch(permissions)
     }
 }
 

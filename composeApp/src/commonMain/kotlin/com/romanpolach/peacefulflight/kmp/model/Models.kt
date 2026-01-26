@@ -47,10 +47,8 @@ data class Tool(
  * Flight status enum - simple version without resource dependencies
  */
 enum class FlightStatus(val label: String) {
-    ON_LAND("On Land"),
     BOARDING("Boarding"),
     TAKEOFF("Takeoff"),
     CRUISE("Cruising"),
-    TURBULENCE("Turbulence"),
     LANDING("Landing")
 }

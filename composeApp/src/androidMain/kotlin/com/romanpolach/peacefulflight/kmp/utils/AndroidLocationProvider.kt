@@ -6,6 +6,7 @@ import com.google.android.gms.location.LocationServices
 import com.google.android.gms.location.Priority
 import com.google.android.gms.tasks.CancellationTokenSource
 import kotlinx.coroutines.tasks.await
+import kotlinx.coroutines.withTimeoutOrNull
 
 class AndroidLocationProvider(private val context: Context) : LocationProvider {
 
@@ -14,20 +15,20 @@ class AndroidLocationProvider(private val context: Context) : LocationProvider {
         return try {
             val fusedLocationClient = LocationServices.getFusedLocationProviderClient(context)
 
-            // Try last known location first
-            val lastLocation = fusedLocationClient.lastLocation.await()
-            if (lastLocation != null) {
-                return Location(lastLocation.latitude, lastLocation.longitude)
+            // Try to get fresh location with a timeout to prevent hanging UI
+            withTimeoutOrNull(5000) {
+                val cts = CancellationTokenSource()
+                val freshLocation = fusedLocationClient.getCurrentLocation(
+                    Priority.PRIORITY_BALANCED_POWER_ACCURACY,
+                    cts.token
+                ).await()
+
+                freshLocation?.let { Location(it.latitude, it.longitude) }
+            } ?: run {
+                // If fresh location times out, try last known location as fallback
+                val lastLocation = fusedLocationClient.lastLocation.await()
+                lastLocation?.let { Location(it.latitude, it.longitude) }
             }
-
-            // Request fresh location
-            val cts = CancellationTokenSource()
-            val freshLocation = fusedLocationClient.getCurrentLocation(
-                Priority.PRIORITY_BALANCED_POWER_ACCURACY,
-                cts.token
-            ).await()
-
-            freshLocation?.let { Location(it.latitude, it.longitude) }
         } catch (e: Exception) {
             null
         }
