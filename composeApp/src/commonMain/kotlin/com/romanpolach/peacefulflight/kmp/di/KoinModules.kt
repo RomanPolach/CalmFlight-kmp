@@ -50,6 +50,7 @@ val commonModule = module {
     factory { GForceViewModel(get()) }
     factory { RidingTheWaveViewModel(get()) }
     factory { GuidedInterventionViewModel(get()) }
+    // test comment
 }
 
 /**
