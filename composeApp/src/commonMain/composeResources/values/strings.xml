@@ -1,0 +1,262 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Peaceful Flight</string>
+
+    <!-- General -->
+    <string name="previous">Previous</string>
+    <string name="next">Next</string>
+    <string name="settings">Settings</string>
+    <string name="continue_btn">Continue</string>
+    <string name="finish_btn">Finish</string>
+    <string name="close_btn">Close</string>
+    <string name="start_flight_btn">Start Flight</string>
+    <string name="end_flight_btn">End Flight</string>
+    <string name="cancel_btn">Cancel</string>
+
+    <!-- Navigation -->
+    <string name="nav_cockpit">Cockpit</string>
+    <string name="nav_learn">Learn</string>
+    <string name="nav_sos">SOS</string>
+    <string name="nav_tools">Tools</string>
+
+    <!-- Flight Mode Dialogs -->
+    <string name="flight_start_title">Your flight is about to start</string>
+    <string name="flight_start_question">How bad/scary do you expect it to be?</string>
+    <string name="flight_end_title">Welcome back!</string>
+    <string name="flight_end_question">You are about to end the flight. How bad/scary was the flight actually?</string>
+    <string name="flight_mode_active">Flight Mode Active</string>
+    <string name="flight_mode_inactive">Start Flight Mode</string>
+
+    <!-- Flight Ended Confirmation Dialog -->
+    <string name="flight_ended_title">Flight Recorded!</string>
+    <string name="flight_ended_message">Your flight has been saved. You can review how your expectations compared to reality in the Reality Check tool.</string>
+    <string name="flight_ended_go_to_reality_check">View Reality Check</string>
+    <string name="flight_ended_dismiss">Got it</string>
+
+    <!-- SOS Screen -->
+    <string name="sos_panic_title">I'M PANICKING\nRIGHT NOW</string>
+    <string name="sos_panic_subtitle">My body is shaking or I can't breathe</string>
+    <string name="sos_help_message">What is happening right now?</string>
+    <string name="sos_help_options_title">Help options</string>
+    <string name="sos_help_options_subtitle">See how this app can help you</string>
+
+    <!-- Cockpit Screen -->
+    <string name="cockpit_title">Cockpit</string>
+    <string name="g_force_monitor">G-FORCE MONITOR</string>
+    <string name="safe_operating_zone">Safe Zone</string>
+    <string name="perfectly_safe">You are perfectly safe.</string>
+    <string name="all_systems_normal">All systems\nnormal.</string>
+    <string name="cruising_smoothly">We are cruising smoothly.\nFlight deck is calm.</string>
+
+    <!-- Weather Widget -->
+    <string name="weather_widget_title">Flight Conditions</string>
+    <string name="weather_check_btn">Check Local Weather</string>
+    <string name="weather_loading">Loading weather data...</string>
+    <string name="weather_error_generic">Could not load weather data.</string>
+    <string name="weather_retry_btn">Retry</string>
+    <string name="weather_msg_excellent">Conditions are excellent. Expect a smooth takeoff.</string>
+    <string name="weather_error_location">Please enable location services to check weather.</string>
+    <string name="tool_shortcut_desc_gforce">Monitor G-forces to see how stable the plane is.</string>
+    <string name="tool_shortcut_desc_ptw">Postpone your worries for a scheduled time.</string>
+    <string name="tool_shortcut_desc_wo">Compete in a friendly worry competition.</string>
+    <string name="tool_shortcut_desc_rc">Check how your anxiety expectations match reality.</string>
+    <string name="tool_shortcut_desc_sf">Read essential safety facts about flying.</string>
+    <string name="tool_shortcut_desc_am">Mindfully accept and process your anxiety.</string>
+    <string name="tool_shortcut_desc_sc">Be kind to yourself during anxious moments.</string>
+    <string name="tool_shortcut_desc_ct">Analyze and challenge catastrophic thoughts.</string>
+    <string name="tool_shortcut_desc_voice">Choose a calming voice for your guide.</string>
+
+    <!-- G-Force Monitor -->
+    <string name="status_smooth">SMOOTH FLIGHT</string>
+    <string name="status_light_bumps">LIGHT BUMPS</string>
+    <string name="status_moderate">MODERATE CHOP</string>
+    <string name="status_bumpy">BUMPY (SAFE)</string>
+
+    <!-- Flight Status -->
+    <string name="status_on_land">On Land</string>
+    <string name="status_boarding">Boarding</string>
+    <string name="status_takeoff">Takeoff</string>
+    <string name="status_cruise">Cruise</string>
+    <string name="status_turbulence">Turbulence</string>
+    <string name="status_landing">Landing</string>
+
+    <!-- Cockpit Phases Content -->
+    <string name="boarding_title">Getting Ready</string>
+    <string name="boarding_desc">The anticipation is often worse than the flight itself. Use these tools to quiet your mind before takeoff.</string>
+    <string name="takeoff_tools_title">Takeoff Tools</string>
+    <string name="cruise_tools_title">Cruise Tools</string>
+    <string name="landing_tools_title">Landing Tools</string>
+    <string name="on_land_card_title">Ready to fly?</string>
+    <string name="on_land_card_desc">Tap the button below to start Flight Mode. You can log your anxiety levels before and after the flight to track your progress.</string>
+    <string name="on_land_card_title_active">Flight Mode Active</string>
+    <string name="on_land_card_desc_active">Don't forget to stop Flight Mode after touchdown!</string>
+    <string name="tool_shortcut_desc_rtw">Feeling panic rising? Ride the adrenaline wave.</string>
+    <string name="tool_shortcut_desc_ftf">Examine your sensations with curiosity.</string>
+    <string name="rtw2_title">Riding The Wave</string>
+    <string name="ftf_title">Facing The Fear</string>
+
+    <!-- Tools Screen -->
+    <string name="tools_title">Tools</string>
+
+    <!-- Tool Names -->
+    <string name="tool_gforce">G-Force Monitor</string>
+    <string name="tool_gforce_desc">Visual proof of stability</string>
+    <string name="tool_riding_wave">Riding The Wave</string>
+    <string name="tool_riding_wave_desc">Stop a panic attack</string>
+    <string name="tool_postpone_worry">Postpone the Worry</string>
+    <string name="tool_postpone_worry_desc">Stop 'what-if' thoughts</string>
+    <string name="tool_worry_olympics">Worry Olympics</string>
+    <string name="tool_worry_olympics_desc">Exaggerate fears to reduce them</string>
+    <string name="tool_facing_fear">Facing the Fear</string>
+    <string name="tool_facing_fear_desc">Fly into the cloud</string>
+    <string name="tool_reality_check">Reality Check</string>
+    <string name="tool_reality_check_desc">Compare your fear vs reality</string>
+    <string name="tool_safety_facts">Safety Facts</string>
+    <string name="tool_safety_facts_desc">See why flying is safe</string>
+    <string name="tool_acceptance">Acceptance Meditation</string>
+    <string name="tool_acceptance_desc">Work with anxiety</string>
+    <string name="tool_self_compassion">Self-Compassion</string>
+    <string name="tool_self_compassion_desc">Meet fear with kindness</string>
+    <string name="tool_catastrophic">Catastrophic Thinking</string>
+    <string name="tool_catastrophic_desc">Investigate your worries</string>
+    <string name="tool_voice">Voice Settings</string>
+    <string name="tool_voice_desc">Preview TTS voices</string>
+    <string name="ptw_title">Postpone the Worry</string>
+    <string name="wo_title">Worry Olympics</string>
+    <string name="sf_title">Safety Facts</string>
+    <string name="am_title">Acceptance Meditation</string>
+    <string name="sc_title">Self-Compassion</string>
+    <string name="ct_title">Catastrophic Thinking</string>
+    <string name="voice_settings">Voice Settings</string>
+    <string name="cat_turbulence_title">Turbulence</string>
+    <string name="cat_turbulence_desc">Everything about why planes shake safely.</string>
+    <string name="cat_sounds_title">Sounds &amp; Sensations</string>
+    <string name="cat_sounds_desc">De-mystifying the mechanical noises of flight.</string>
+    <string name="cat_weather_title">Weather</string>
+    <string name="cat_weather_desc">Storms, lightning, and wind explained.</string>
+    <string name="cat_mechanical_title">Mechanical Safety</string>
+    <string name="cat_mechanical_desc">Redundancy and engine facts.</string>
+    <string name="cat_crew_title">Crew &amp; Training</string>
+    <string name="cat_crew_desc">The people keeping you safe.</string>
+
+    <!-- Learn Sections -->
+    <string name="learn_section_takeoff">Takeoff &amp; Climbing</string>
+    <string name="learn_section_flight">During the Flight</string>
+    <string name="learn_section_landing">Landing</string>
+
+    <!-- Worry Olympic: The "Make It Worse" Technique -->
+    <string name="wo2_title">Worry Olympic</string>
+    <string name="wo2_intro">This technique is called \"paradoxical intention.\" Instead of trying to calm down, you\'re going to try to make yourself MORE anxious. As anxious as humanly possible.\n\nWhen you try to scare yourself even worse on purpose, your brain almost always goes \"Wait... this is ridiculous\" and the panic collapses.</string>
+    <string name="wo2_step_1">In your imagination, stand up. See yourself unbuckling your seatbelt. People are looking at you. Really imagine the eyes on you.</string>
+    <string name="wo2_step_2">Now walk to the front of the plane in your imagination. Your anxiety is visible. You\'re shaking. Make it dramatic.</string>
+    <string name="wo2_step_3">Imagine grabbing the PA microphone. Every passenger can hear you now.</string>
+    <string name="wo2_step_4">Say your worst fears out loud through that microphone. \"EVERYONE, LISTEN TO ME! This plane is going to crash! We\'re all going to die!\" Really commit to this absurdity.</string>
+    <string name="wo2_step_5">Double down. \"See that flight attendant\'s face?! They KNOW we\'re doomed!\" Imagine trying to convince the entire plane to panic with you.</string>
+    <string name="wo2_step_6">Now stop. Take a breath. If you really committed, the whole thing became so ridiculous that your anxiety broke and turned into humor.</string>
+    <string name="wo2_step_7">You cannot voluntarily create a panic attack. When you try to panic harder, the mechanism breaks.</string>
+    <string name="wo2_step_8">Anxiety thrives on feeling out of control. When you try to make it worse, you prove you ARE in control.</string>
+    <string name="wo2_step_9">What if, instead of fighting, you invited the anxiety in? This technique gives you the power to stop taking it so seriously.</string>
+    <string name="wo2_step_10">Next time you feel anxiety: \"Oh, you want me to panic? Okay, let\'s REALLY panic. Come on, anxiety, show me what you\'ve got.\"</string>
+
+    <!-- Acceptance Meditation -->
+    <string name="am_title">Acceptance Meditation</string>
+    <string name="am_intro">Acceptance is not about liking the feeling; it\'s about stopping the war against it. When you stop fighting, you stop adding fuel to the fire.</string>
+    <string name="am_part_1">Take a deep breath. Notice the anxiety as if it were a physical object. What color is it? What shape? Is it heavy or light?</string>
+    <string name="am_part_2">Say to yourself: \"I don\'t like this feeling, but I can allow it to be here. I am willing to feel this right now.\"</string>
+    <string name="am_part_3">Imagine you are a large, open space—like a massive hall—and the anxiety is just a small guest passing through. You are big enough to hold this feeling without it overwhelming you.</string>
+    <string name="am_part_4">Breathe into the sensation. Instead of tightening around it, soften. Let the edges of the feeling become blurry.</string>
+    <string name="am_part_5">Remind yourself: \"This is just a temporary visitor. It doesn\'t define me. I am the observer, not the feeling.\"</string>
+    <string name="am_part_6">As you continue your flight, whenever the feeling returns, simply greet it: \"Hello again. You have a seat here, but you aren\'t flying the plane.\"</string>
+
+    <string name="congrats_title">Well Done!</string>
+    <string name="congrats_msg">You managed your panic attack successfully. Every time you ride the wave, it gets easier.</string>
+    <string name="anxiety_level_label">Anxiety Level: %d/10</string>
+    <string name="rate_btn">Rate</string>
+    <string name="feedback_improving">It is getting better! Keep going.</string>
+    <string name="feedback_worsening">Trust the process. It will pass.</string>
+    <string name="feedback_steady">You are doing great. Ride the wave.</string>
+
+    <!-- Postpone The Worry Tool -->
+    <string name="ptw_title">Postpone the Worry</string>
+    <string name="ptw_intro">You\'re thinking: \"Just delay it? That can\'t possibly work.\" It feels too simple, but it\'s one of the most powerful tools in Metacognitive Therapy, the treatment that has been shown in research to reduce anxiety faster and more lastingly than traditional methods.\n\nYour brain treats every scary thought as an urgent problem that must be solved immediately. In a plane, that\'s useless: there is nothing you can do about the wings or the engines right now. Keeping the worry running for hours only exhausts you.\n\nThe trick is to give the worry an official, specific time later - so your mind accepts that the job is safely scheduled and stops pressing the alarm button.</string>
+    <string name="ptw_step_1">Do this right now:\n\nSay to yourself (quietly or in your head):\n\n\"All worrying and what-if thoughts about the flight are now officially postponed until the very last minute of this flight, just before we land.\"</string>
+    <string name="ptw_step_2">Whenever another scary thought appears, answer it with the exact same sentence:\n\n\"Thank you. Postponed until the final minute.\"</string>
+    <string name="ptw_step_3">That\'s all. No fighting, no arguing, no reassuring yourself the plane is safe. Just postpone.</string>
+    <string name="ptw_step_4">Most people notice the pressure drop within 30-60 seconds because the brain no longer believes the worry is needed right now.</string>
+    <string name="ptw_step_5">And here\'s what almost always happens: when that final minute actually arrives hours later, you\'ll look up and realise the worry feels tiny - or you won\'t even remember what you were going to worry about.</string>
+    <string name="ptw_step_6">Either way, you will have given yourself hours of calm instead of hours of torment.\n\nPostpone it. You haven\'t lost anything, and you\'ve just reclaimed the rest of your flight.</string>
+
+    <!-- Riding the Wave Tool -->
+    <string name="rtw2_title">Riding the Wave</string>
+    <string name="rtw2_intro">This technique is from Dialectical Behavior Therapy (DBT). The \"riding the wave\" technique is based on a fundamental truth about all emotions: they are temporary and they follow a wave pattern. They rise, they peak, and they fall. Always. Without exception.\n\nThe wave metaphor isn\'t just poetic—it\'s neurologically accurate. Your nervous system literally cannot maintain peak anxiety indefinitely. It\'s biologically impossible.</string>
+    <string name="rtw2_step_1">Imagine you\'re at the beach. You see a wave coming. You have two choices:\n\nChoice 1: Fight the wave. Brace yourself. Resist. What happens? The wave crashes into you, knocks you down, drags you under.\n\nChoice 2: Ride the wave. You move with it rather than against it. What happens? The wave passes. You\'re still there. You\'re okay.\n\nAnxiety works exactly the same way.</string>
+    <string name="rtw2_step_2">Find a comfortable position. Take a deep breath. Let\'s begin.\n\nFirst, notice that anxiety is present. Where do you feel it in your body? Chest? Stomach? Hands?\n\nDon\'t try to change it. Just notice where the wave is showing up in your body right now.\n\nSay to yourself: \"A wave of anxiety is here.\"</string>
+    <string name="rtw2_step_3">Now notice: Is the anxiety getting stronger? Is the wave building?\n\nThis is the wave rising. This is normal. This is what waves do.\n\nSay to yourself: \"The wave is rising. I\'m going to ride it.\"\n\nBreathe. Not to make it go away, but to anchor yourself as you ride.\n\nBreathe in... breathe out.</string>
+    <string name="rtw2_step_4">You might feel like you\'re at the peak now. The anxiety might feel very strong.\n\nListen to me carefully: You are at the top of the wave. This is as big as it gets. The wave has nowhere to go but down.\n\nSay to yourself: \"This is the peak. I\'m still here. I\'m riding this.\"\n\nBreathe with it. Feel the intensity. Notice it. Don\'t fight it.</string>
+    <string name="rtw2_step_5">Now, notice: Is the intensity the same? Or is it starting to ease, even just a little?\n\nThis is the wave falling. Your nervous system naturally returns to baseline. That\'s how bodies work.\n\nSay to yourself: \"The wave is falling. I\'m coming down.\"\n\nJust keep breathing. Keep riding. The wave is carrying you back down.</string>
+    <string name="rtw2_step_6">Notice now: Where is the anxiety?\n\nThe wave has passed. You rode it. You\'re still here.\n\nSay to yourself: \"I rode the wave. I\'m okay.\"\n\nThis is the truth you just proved to yourself: Anxiety rises, peaks, and falls. Always. And you can ride it every single time.</string>
+    <string name="rtw2_step_7">Take a moment to recognize what just happened.\n\nYou felt anxiety. You didn\'t run from it. You didn\'t fight it. You acknowledged it. You named it. You rode it like a wave. And it passed.</string>
+    <string name="rtw2_step_8">Take a deep breath in... and out.\n\nThe wave came. You rode it. It passed. You\'re still here.\n\nRemember this moment. Remember that you have this skill now. The next time anxiety rises, you\'ll know what to do.</string>
+    <string name="rtw2_step_9">When you feel anxiety rising during your flight: Name it: \"A wave of anxiety is here.\"\nDon\'t fight it: Let it rise. You\'re going to ride it.\nTrack the pattern: Notice when it\'s rising, peaking, falling.\nBreathe with it.\nTrust the process.</string>
+    <string name="rtw2_step_10">When you fight anxiety, you send your brain a message: \"This is dangerous.\" That triggers more anxiety. When you ride the wave, you send a different message: \"This is uncomfortable, but I can handle it. This will pass.\"\n\nFighting keeps you stuck in the wave. Riding lets you move through it.</string>
+    <string name="rtw2_step_11">Anxiety is a wave. It rises, it peaks, it falls.\n\nYou don\'t have to stop the wave. You don\'t have to calm the ocean. You just have to learn to surf.\n\nAnd now you know how.</string>
+
+    <!-- Facing the Fear / Cloud Meditation -->
+    <string name="cloud_meditation_part_1">Find a comfortable position. Take a slow breath in through your nose… and out through your mouth. Let your shoulders drop.</string>
+    <string name="cloud_meditation_part_2">Right now, you might be feeling anxious. That\'s okay. You don\'t need to push these feelings away.\n\nImagine you\'re flying toward a wall of dark clouds. From where you sit, they look heavy, almost solid. But up close, it\'s just mist. Your anxiety is like this cloud.</string>
+    <string name="cloud_meditation_part_3">Breathe together. Each breath is like flying through the mist.\n\nBreathe in for four… hold… breathe out for six.</string>
+    <string name="cloud_meditation_part_4">Notice your feelings. Tightness? Fluttering? Racing thoughts?\n\nDon\'t run. Get curious. Move closer, like flying into the cloud. What is it really made of? A heartbeat? A physical sensation? A story your mind is telling?\n\nAs you look directly at each part, it becomes less solid.</string>
+    <string name="cloud_meditation_part_5">The plane doesn\'t stop flying when it enters a cloud. The pilots don\'t panic. They know it\'s just mist.\n\nYou can let the anxiety be there, knowing it\'s just a cloud—no substance, no danger.\n\nBreathe in… through the mist. Breathe out… emerging into clear sky.</string>
+
+    <string name="ftf_title">Facing the Fear</string>
+
+    <!-- Learn Questions & Answers - Takeoff -->
+    <string name="takeoff_q1">Why does the whole plane vibrate and rattle before it even moves?</string>
+    <string name="takeoff_a1">You\'re sitting there, the engines are still quiet, and suddenly the entire cabin starts shaking, rattling, and buzzing like something is loose or broken. It feels wrong and scary.\n\nHere\'s exactly what\'s happening:\n\nWhile you\'re waiting at the gate or taxiing, the pilots and the ground crew are doing last-second checks. The biggest shake usually comes when the pilots turn on the hydraulic pumps at full power and test the flight controls (ailerons, elevators, rudder).\n\nThose big control surfaces on the wings and tail move quickly left-right and up-down. When they do, the hydraulic lines and actuators make the whole airframe vibrate and transmit the movement into the cabin. It\'s the same as when you test the steering wheel of a car hard left and right - the whole car shudders a little.\n\nYou might also hear a loud whining or barking sound under the floor. That\'s the PTU (Power Transfer Unit), a normal hydraulic system that makes a loud \"dog barking\" noise on many Airbus planes (and similar noises on Boeings). It only runs when one hydraulic system is at lower pressure - completely routine.\n\nSometimes the air-conditioning packs are switched from ground power to the engines or APU, and that makes the floor vibrate for a few seconds.\n\nAll of this happens before the plane even starts rolling and it is 100% normal. Pilots do it on every single flight. The plane is not falling apart - it\'s just waking up its muscles and making sure everything moves freely before the takeoff run. Nothing is loose, nothing is broken. It\'s the aviation version of stretching before a sprint.\n\nOnce the engines spool up and you start moving, most of that pre-flight rattling disappears.\n\nYou\'re perfectly safe - the plane is just saying \"systems checked and ready.\"</string>
+
+    <string name="takeoff_q3">That drop or dip right after takeoff - are we falling back down?</string>
+    <string name="takeoff_a3">No, you\'re not falling. It feels exactly like the plane just lost all lift and is dropping, but it\'s actually a normal (and deliberate) maneuver that happens on almost every single takeoff.\n\nHere\'s precisely what\'s going on:\n\nAs soon as the wheels leave the ground, the pilot pulls the nose up to a climb angle (usually around 10-15 degrees). That gives you the strong \"pushing you back in your seat\" feeling.\n\nAbout 20-30 seconds later, at around 800-1,500 feet (245-460 m) above the runway, the pilot reduces engine power from full takeoff thrust to a lower \"climb thrust.\" This is standard airline procedure to extend engine life and reduce noise over the airport area. The sudden drop in engine roar makes it feel like the power just disappeared.\n\nAt almost the same moment, the pilot lowers the nose slightly so the plane can accelerate to a safe climbing speed. That small pitch-down movement creates the unmistakable \"elevator drop\" or \"sinking\" sensation in your stomach.\n\nOn top of that, the huge flaps that were hanging down for takeoff start retracting, usually between 1,000-1,500 feet (305-460 m). When the first stage of flaps comes up, the wing temporarily loses a tiny bit of lift, which adds to the sinking feeling.\n\nAll of this happens in the first minute or so after takeoff. It feels dramatic because you\'re still relatively low and your body isn\'t used to it, but the plane is climbing the entire time. The altimeter is going up, not down.\n\nPilots do this on every flight, every day, millions of times a year. It\'s not an emergency, it\'s not a mistake, and the plane is nowhere near stalling or falling.\n\nIt\'s just the normal \"clean-up\" phase after takeoff: reduce power -> lower the nose a little -> retract flaps -> settle into a steady climb.\n\nNext time you feel that dip, remind yourself: \"That\'s just the pilot shifting gears.\"\n\nIt always passes in seconds, and then the ride smooths out. You\'re climbing safely the whole time.</string>
+
+    <!-- Learn Questions - Takeoff -->
+    <string name="takeoff_q1">Why does the whole plane vibrate and rattle before it even moves?</string>
+    <string name="takeoff_q3">That drop or dip right after takeoff - are we falling back down?</string>
+    <string name="takeoff_q4">Why do the engines suddenly get quieter the moment we're in the air?</string>
+    <string name="takeoff_q5">Why is the plane wobbling and rocking side to side after takeoff?</string>
+    <string name="takeoff_q6">What if the engine fails during the takeoff?</string>
+    <string name="takeoff_q7">The runway is wet or snowy - is it safe to takeoff?</string>
+    <string name="takeoff_q8">What if we get hit by a bird during takeoff?</string>
+
+    <!-- Learn Questions - Flight -->
+    <string name="flight_q1">What if we run out of fuel over the ocean?</string>
+    <string name="flight_q2">Why did the airplane suddenly drop?</string>
+    <string name="flight_q3">The engines just got quieter - what happened?</string>
+    <string name="flight_q4">What if both engines fail at the same time up here?</string>
+    <string name="flight_q5">We're flying over the ocean/mountains for hours - what if something goes wrong?</string>
+    <string name="flight_q6">What if the cabin suddenly depressurises?</string>
+    <string name="flight_q7">What if there is a fire on board?</string>
+    <string name="flight_q8">What if ice builds up on the wings?</string>
+    <string name="flight_q9">What if we get hit by lightning?</string>
+    <string name="flight_q10">What if we lose electricity on a plane?</string>
+    <string name="flight_q11">Are thunderstorms dangerous to airplanes?</string>
+
+    <!-- Learn Questions - Landing -->
+    <string name="landing_q1">How pilots decide if it's safe to land</string>
+    <string name="landing_q2">Why do the wings flex on landing?</string>
+    <string name="landing_q3">How do braking systems work?</string>
+
+    <!-- Anxiety Rating -->
+    <string name="anxiety_level_label">Anxiety Level: %1$d/10</string>
+    <string name="rate_btn">Rate</string>
+    <string name="feedback_improving">It is getting better! Keep going.</string>
+    <string name="feedback_worsening">Trust the process. It will pass.</string>
+    <string name="feedback_steady">You are doing great. Ride the wave.</string>
+    <string name="congrats_title">Well Done!</string>
+    <string name="congrats_msg">You managed your panic attack successfully. Every time you ride the wave, it gets easier.</string>
+
+    <!-- Reality Check -->
+    <string name="rc_title">Reality Check</string>
+    <string name="rc_empty_title">No Flight Data Yet</string>
+    <string name="rc_empty_desc">Complete a flight in Flight Mode to see your anxiety tracking here.</string>
+    <string name="rc_legend_expected">Expected Fear</string>
+    <string name="rc_legend_actual">Actual Reality</string>
+</resources>
