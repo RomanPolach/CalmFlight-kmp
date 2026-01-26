@@ -3,6 +3,7 @@ package com.romanpolach.peacefulflight.kmp.data.local
 import androidx.room.Room
 import androidx.room.RoomDatabase
 import androidx.sqlite.driver.bundled.BundledSQLiteDriver
+import kotlinx.cinterop.ExperimentalForeignApi
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.IO
 import platform.Foundation.NSDocumentDirectory
@@ -18,6 +19,7 @@ actual class RoomBuilder {
             .setQueryCoroutineContext(Dispatchers.IO)
     }
 
+    @OptIn(ExperimentalForeignApi::class)
     private fun documentDirectory(): String {
         val documentDirectory = NSFileManager.defaultManager.URLForDirectory(
             directory = NSDocumentDirectory,
