@@ -3,8 +3,11 @@ package com.romanpolach.peacefulflight.kmp.utils
 import android.content.Context
 import android.speech.tts.TextToSpeech
 import android.speech.tts.UtteranceProgressListener
+import android.speech.tts.Voice
 import com.romanpolach.peacefulflight.kmp.data.preferences.SettingsRepository
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.asStateFlow
 import java.util.Locale
 
 class AndroidTtsManager(
@@ -15,6 +18,9 @@ class AndroidTtsManager(
     private var tts: TextToSpeech? = null
     private val _isSpeaking = MutableStateFlow(false)
     private val _isInitialized = MutableStateFlow(false)
+    private val _availableVoices = MutableStateFlow<List<TtsVoiceOption>>(emptyList())
+
+    override val availableVoices: StateFlow<List<TtsVoiceOption>> = _availableVoices.asStateFlow()
 
     init {
         tts = TextToSpeech(context) { status ->
@@ -22,6 +28,7 @@ class AndroidTtsManager(
                 val result = tts?.setLanguage(Locale.US)
                 if (result != TextToSpeech.LANG_MISSING_DATA && result != TextToSpeech.LANG_NOT_SUPPORTED) {
                     _isInitialized.value = true
+                    refreshAvailableVoices()
                     restoreSavedVoice()
                     restoreSavedSpeechRate()
 
@@ -43,13 +50,35 @@ class AndroidTtsManager(
         }
     }
 
+    private fun refreshAvailableVoices() {
+        _availableVoices.value = tts
+            ?.voices
+            ?.asSequence()
+            ?.filter { voice ->
+                val locale = voice.locale ?: return@filter false
+                locale.language.equals(Locale.ENGLISH.language, ignoreCase = true) &&
+                    !voice.isNetworkConnectionRequired
+            }
+            ?.sortedWith(
+                compareBy<Voice> { it.isNetworkConnectionRequired }
+                    .thenBy { it.locale?.displayName ?: "" }
+                    .thenBy { it.name }
+            )
+            ?.map { voice ->
+                val locale = voice.locale ?: Locale.US
+                TtsVoiceOption(
+                    id = voice.name,
+                    name = locale.displayName.ifBlank { voice.name },
+                    localeTag = locale.toLanguageTag()
+                )
+            }
+            ?.toList()
+            .orEmpty()
+    }
+
     private fun restoreSavedVoice() {
         val savedVoiceName = settingsRepository.getTtsVoiceName() ?: return
-        val voices = tts?.voices ?: return
-        val savedVoice = voices.find { it.name == savedVoiceName }
-        if (savedVoice != null) {
-            tts?.voice = savedVoice
-        }
+        setVoice(savedVoiceName)
     }
 
     private fun restoreSavedSpeechRate() {
@@ -80,4 +109,15 @@ class AndroidTtsManager(
     }
 
     override fun isSpeaking(): Boolean = _isSpeaking.value
+
+    override fun setVoice(voiceId: String) {
+        val selectedVoice = tts?.voices?.firstOrNull { it.name == voiceId } ?: return
+        tts?.voice = selectedVoice
+        settingsRepository.setTtsVoiceName(voiceId)
+    }
+
+    override fun setSpeechRate(rate: Float) {
+        tts?.setSpeechRate(rate)
+        settingsRepository.setTtsSpeechRate(rate)
+    }
 }

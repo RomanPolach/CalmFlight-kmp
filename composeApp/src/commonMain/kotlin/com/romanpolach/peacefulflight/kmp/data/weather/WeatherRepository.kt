@@ -4,8 +4,12 @@ import com.romanpolach.peacefulflight.kmp.model.WeatherResponse
 import com.romanpolach.peacefulflight.kmp.model.WeatherUiState
 import io.ktor.client.HttpClient
 import io.ktor.client.call.body
+import io.ktor.client.network.sockets.ConnectTimeoutException
+import io.ktor.client.network.sockets.SocketTimeoutException
 import io.ktor.client.request.get
 import io.ktor.client.request.parameter
+import io.ktor.util.network.UnresolvedAddressException
+import kotlinx.io.IOException
 
 /**
  * Weather repository - fetches weather data from Open-Meteo API using Ktor
@@ -38,13 +42,13 @@ class WeatherRepository(
 
             // Build message based on conditions
             val (messageKey, messageArgs) = if (isGoodForTakeoff) {
-                "weather_msg_excellent" to emptyList<Any>()
+                WeatherStringKeys.MESSAGE_EXCELLENT to emptyList<Any>()
             } else {
                 if (!isLowWind) {
                     val knots = current.windSpeed * 0.539957
-                    "weather_msg_breezy" to listOf(current.windSpeed, knots)
+                    WeatherStringKeys.MESSAGE_BREEZY to listOf(current.windSpeed, knots)
                 } else {
-                    "weather_msg_cloudy" to emptyList()
+                    WeatherStringKeys.MESSAGE_CLOUDY to emptyList()
                 }
             }
 
@@ -60,11 +64,30 @@ class WeatherRepository(
                 messageArgs = messageArgs,
                 cityName = null // Geocoding will be platform-specific
             )
-        } catch (e: Exception) {
-            println("WeatherRepository error: ${e.message}")
+        } catch (_: UnresolvedAddressException) {
             WeatherUiState(
                 isLoading = false,
-                errorKey = "weather_error_generic"
+                errorKey = WeatherStringKeys.ERROR_OFFLINE
+            )
+        } catch (_: ConnectTimeoutException) {
+            WeatherUiState(
+                isLoading = false,
+                errorKey = WeatherStringKeys.ERROR_OFFLINE
+            )
+        } catch (_: SocketTimeoutException) {
+            WeatherUiState(
+                isLoading = false,
+                errorKey = WeatherStringKeys.ERROR_OFFLINE
+            )
+        } catch (_: IOException) {
+            WeatherUiState(
+                isLoading = false,
+                errorKey = WeatherStringKeys.ERROR_OFFLINE
+            )
+        } catch (_: Exception) {
+            WeatherUiState(
+                isLoading = false,
+                errorKey = WeatherStringKeys.ERROR_GENERIC
             )
         }
     }

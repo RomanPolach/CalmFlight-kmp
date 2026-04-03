@@ -8,8 +8,10 @@ import com.romanpolach.peacefulflight.kmp.utils.GForceProvider
 import com.romanpolach.peacefulflight.kmp.utils.IosGForceProvider
 import com.romanpolach.peacefulflight.kmp.utils.IosLocationProvider
 import com.romanpolach.peacefulflight.kmp.utils.IosPermissionManager
+import com.romanpolach.peacefulflight.kmp.utils.IosTtsManager
 import com.romanpolach.peacefulflight.kmp.utils.LocationProvider
 import com.romanpolach.peacefulflight.kmp.utils.PermissionManager
+import com.romanpolach.peacefulflight.kmp.utils.TtsManager
 import org.koin.core.module.Module
 import org.koin.dsl.module
 
@@ -30,4 +32,7 @@ actual fun platformModule(): Module = module {
 
     // G-Force
     single<GForceProvider> { IosGForceProvider() }
+
+    // TTS
+    single<TtsManager> { IosTtsManager(get()) }
 }

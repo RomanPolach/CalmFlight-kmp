@@ -49,6 +49,12 @@ fun LearnDetailScreen(
     onBack: () -> Unit
 ) {
     val item = remember(itemId) { AppContent.getLearnItemById(itemId) }
+    val sectionImage = remember(itemId) {
+        AppContent.learnSections
+            .firstOrNull { section -> section.items.any { it.id == itemId } }
+            ?.imageRes
+    }
+    val headerImage = item?.imageRes ?: sectionImage
 
     if (item == null) {
         Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
@@ -78,12 +84,14 @@ fun LearnDetailScreen(
                     alpha = (1f - (scrollState.value / headerHeightPx)).coerceIn(0f, 1f)
                 }
         ) {
-            Image(
-                painter = painterResource(Res.drawable.img_takeoff),
-                contentDescription = null,
-                contentScale = ContentScale.Crop,
-                modifier = Modifier.fillMaxSize()
-            )
+            headerImage?.let { image ->
+                Image(
+                    painter = painterResource(image),
+                    contentDescription = null,
+                    contentScale = ContentScale.Crop,
+                    modifier = Modifier.fillMaxSize()
+                )
+            }
 
             // Gradient Overlay
             Box(

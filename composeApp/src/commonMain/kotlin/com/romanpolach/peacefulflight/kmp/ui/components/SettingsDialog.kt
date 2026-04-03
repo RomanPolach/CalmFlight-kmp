@@ -64,7 +64,6 @@ fun SettingsDialog(
                 modifier = Modifier.fillMaxWidth(),
                 verticalArrangement = Arrangement.spacedBy(16.dp)
             ) {
-                // Unit System Section
                 Column(verticalArrangement = Arrangement.spacedBy(8.dp)) {
                     Text(
                         text = "Unit System",
@@ -81,21 +80,20 @@ fun SettingsDialog(
                     ) {
                         SettingsOption(
                             title = "Metric",
-                            description = "Celsius (°C), km/h",
+                            description = "Celsius (\u00B0C), km/h",
                             selected = selectedUnitSystem == UnitSystem.METRIC,
                             onClick = { selectedUnitSystem = UnitSystem.METRIC }
                         )
 
                         SettingsOption(
                             title = "Imperial",
-                            description = "Fahrenheit (°F), mph",
+                            description = "Fahrenheit (\u00B0F), mph",
                             selected = selectedUnitSystem == UnitSystem.IMPERIAL,
                             onClick = { selectedUnitSystem = UnitSystem.IMPERIAL }
                         )
                     }
                 }
 
-                // Theme Section
                 Column(verticalArrangement = Arrangement.spacedBy(8.dp)) {
                     Text(
                         text = "Theme",
@@ -171,9 +169,11 @@ private fun SettingsOption(
                 role = Role.RadioButton
             ),
         shape = RoundedCornerShape(8.dp),
-        color = if (selected) MaterialTheme.colorScheme.primary.copy(alpha = 0.2f) else MaterialTheme.colorScheme.surface.copy(
-            alpha = 0.3f
-        )
+        color = if (selected) {
+            MaterialTheme.colorScheme.primary.copy(alpha = 0.2f)
+        } else {
+            MaterialTheme.colorScheme.surface.copy(alpha = 0.3f)
+        }
     ) {
         Row(
             modifier = Modifier

@@ -4,5 +4,9 @@
 <dict>
 	<key>CADisableMinimumFrameDurationOnPhone</key>
 	<true/>
+	<key>NSLocationWhenInUseUsageDescription</key>
+	<string>Peaceful Flight uses your location to show weather for where you are right now.</string>
+	<key>NSMotionUsageDescription</key>
+	<string>Peaceful Flight uses motion data to power the G-force monitor.</string>
 </dict>
 </plist>

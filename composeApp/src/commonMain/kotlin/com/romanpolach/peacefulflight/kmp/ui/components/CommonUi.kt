@@ -37,6 +37,10 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.text.AnnotatedString
+import androidx.compose.ui.text.SpanStyle
+import androidx.compose.ui.text.buildAnnotatedString
+import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
@@ -160,6 +164,10 @@ fun ContentCard(
     text: String,
     modifier: Modifier = Modifier
 ) {
+    val containsHtml = remember(text) {
+        text.contains("<b>") || text.contains("<i>") || text.contains("<br>") || text.contains("</")
+    }
+
     Box(
         modifier = modifier
             .fillMaxWidth()
@@ -168,7 +176,7 @@ fun ContentCard(
             .padding(12.dp)
     ) {
         Text(
-            text = text,
+            text = if (containsHtml) htmlToAnnotatedString(text) else AnnotatedString(text),
             style = MaterialTheme.typography.bodyLarge.copy(
                 fontSize = 20.sp,
                 lineHeight = 30.sp
@@ -177,6 +185,87 @@ fun ContentCard(
             textAlign = TextAlign.Start
         )
     }
+}
+
+@Composable
+private fun htmlToAnnotatedString(html: String): AnnotatedString {
+    val headingColor = MaterialTheme.colorScheme.primary
+
+    return remember(html, headingColor) {
+        buildAnnotatedString {
+            var index = 0
+            var boldDepth = 0
+            var italicDepth = 0
+
+            while (index < html.length) {
+                if (html[index] == '<') {
+                    val tagEnd = html.indexOf('>', startIndex = index + 1)
+                    if (tagEnd == -1) {
+                        appendStyledSegment(
+                            text = html.substring(index),
+                            isBold = boldDepth > 0,
+                            isItalic = italicDepth > 0,
+                            headingColor = headingColor
+                        )
+                        break
+                    }
+
+                    val tag = html.substring(index + 1, tagEnd).trim().lowercase()
+                    when (tag) {
+                        "b", "strong" -> boldDepth++
+                        "/b", "/strong" -> boldDepth = (boldDepth - 1).coerceAtLeast(0)
+                        "i", "em" -> italicDepth++
+                        "/i", "/em" -> italicDepth = (italicDepth - 1).coerceAtLeast(0)
+                        "br", "br/" -> append("\n")
+                        "p", "p dir=\"ltr\"" -> Unit
+                        "/p" -> {
+                            val currentText = toAnnotatedString().text
+                            if (currentText.isNotEmpty() && !currentText.endsWith("\n")) {
+                                append("\n\n")
+                            }
+                        }
+                    }
+
+                    index = tagEnd + 1
+                    continue
+                }
+
+                val nextTag = html.indexOf('<', startIndex = index).let { if (it == -1) html.length else it }
+                appendStyledSegment(
+                    text = html.substring(index, nextTag),
+                    isBold = boldDepth > 0,
+                    isItalic = italicDepth > 0,
+                    headingColor = headingColor
+                )
+                index = nextTag
+            }
+        }
+    }
+}
+
+private fun AnnotatedString.Builder.appendStyledSegment(
+    text: String,
+    isBold: Boolean,
+    isItalic: Boolean,
+    headingColor: Color
+) {
+    if (text.isEmpty()) return
+
+    val start = length
+    append(text)
+    val end = length
+
+    if (!isBold && !isItalic) return
+
+    addStyle(
+        style = SpanStyle(
+            fontWeight = if (isBold) FontWeight.Bold else null,
+            fontStyle = if (isItalic) FontStyle.Italic else null,
+            color = if (isBold) headingColor else Color.Unspecified
+        ),
+        start = start,
+        end = end
+    )
 }
 
 /**

@@ -1,6 +1,8 @@
 package com.romanpolach.peacefulflight.kmp.utils
 
-import kotlinx.coroutines.CompletableDeferred
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.suspendCancellableCoroutine
+import kotlinx.coroutines.withContext
 import platform.CoreLocation.CLAuthorizationStatus
 import platform.CoreLocation.CLLocationManager
 import platform.CoreLocation.CLLocationManagerDelegateProtocol
@@ -10,16 +12,22 @@ import platform.CoreLocation.kCLAuthorizationStatusDenied
 import platform.CoreLocation.kCLAuthorizationStatusNotDetermined
 import platform.CoreLocation.kCLAuthorizationStatusRestricted
 import platform.darwin.NSObject
+import kotlin.coroutines.resume
 
 class IosPermissionManager : PermissionManager {
 
     private val locationManager = CLLocationManager()
+    private var authorizationDelegate: LocationDelegate? = null
 
     override suspend fun checkPermission(permission: Permission): PermissionState {
         return when (permission) {
             Permission.LOCATION -> {
-                val status = locationManager.authorizationStatus
-                mapStatus(status)
+                if (!CLLocationManager.locationServicesEnabled()) {
+                    PermissionState.DENIED
+                } else {
+                    val status = locationManager.authorizationStatus
+                    mapStatus(status)
+                }
             }
 
             else -> PermissionState.GRANTED
@@ -28,27 +36,40 @@ class IosPermissionManager : PermissionManager {
 
     override suspend fun requestPermission(permission: Permission): PermissionState {
         return when (permission) {
-            Permission.LOCATION -> {
+            Permission.LOCATION -> withContext(Dispatchers.Main) {
+                if (!CLLocationManager.locationServicesEnabled()) {
+                    return@withContext PermissionState.DENIED
+                }
+
                 val currentStatus = locationManager.authorizationStatus
                 if (currentStatus != kCLAuthorizationStatusNotDetermined) {
-                    return mapStatus(currentStatus)
+                    return@withContext mapStatus(currentStatus)
                 }
 
-                val deferred = CompletableDeferred<PermissionState>()
-                val delegate = LocationDelegate { status ->
-                    deferred.complete(mapStatus(status))
+                suspendCancellableCoroutine { continuation ->
+                    val delegate = LocationDelegate { status ->
+                        clearDelegate()
+                        if (continuation.isActive) {
+                            continuation.resume(mapStatus(status))
+                        }
+                    }
+
+                    authorizationDelegate = delegate
+                    locationManager.delegate = delegate
+                    continuation.invokeOnCancellation { clearDelegate() }
+                    locationManager.requestWhenInUseAuthorization()
                 }
-
-                locationManager.delegate = delegate
-                locationManager.requestWhenInUseAuthorization()
-
-                val result = deferred.await()
-                locationManager.delegate = null
-                result
             }
 
             else -> PermissionState.GRANTED
         }
+    }
+
+    private fun clearDelegate() {
+        if (locationManager.delegate === authorizationDelegate) {
+            locationManager.delegate = null
+        }
+        authorizationDelegate = null
     }
 
     private fun mapStatus(status: CLAuthorizationStatus): PermissionState {

@@ -43,35 +43,14 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
+import com.romanpolach.peacefulflight.kmp.data.AppContent
+import com.romanpolach.peacefulflight.kmp.model.Tool
 import com.romanpolach.peacefulflight.kmp.ui.components.StandardTopBar
 import org.jetbrains.compose.resources.stringResource
 import peacefulflight.composeapp.generated.resources.Res
-import peacefulflight.composeapp.generated.resources.am_title
-import peacefulflight.composeapp.generated.resources.ct_title
-import peacefulflight.composeapp.generated.resources.ftf_title
-import peacefulflight.composeapp.generated.resources.g_force_monitor
-import peacefulflight.composeapp.generated.resources.gforce_explanation_title
 import peacefulflight.composeapp.generated.resources.nav_tools
-import peacefulflight.composeapp.generated.resources.ptw_title
-import peacefulflight.composeapp.generated.resources.rc_title
-import peacefulflight.composeapp.generated.resources.rtw2_title
-import peacefulflight.composeapp.generated.resources.tool_shortcut_desc_ftf
-import peacefulflight.composeapp.generated.resources.tool_shortcut_desc_ptw
-import peacefulflight.composeapp.generated.resources.tool_shortcut_desc_rtw
-import peacefulflight.composeapp.generated.resources.tool_shortcut_desc_wo
-import peacefulflight.composeapp.generated.resources.voice_settings_title
-import peacefulflight.composeapp.generated.resources.wo2_title
-
-/**
- * Tool data class for UI
- */
-data class ToolDisplay(
-    val id: String,
-    val name: String,
-    val description: String,
-    val iconName: String
-)
 
 /**
  * Tools screen showing all available anxiety management tools
@@ -80,75 +59,7 @@ data class ToolDisplay(
 fun ToolsScreen(
     onNavigateToTool: (String) -> Unit = {}
 ) {
-    // Use Compose Resources for localized tool names
-    val tools = listOf(
-        ToolDisplay(
-            id = "3",
-            name = stringResource(Res.string.g_force_monitor),
-            description = stringResource(Res.string.gforce_explanation_title),
-            iconName = "Graph"
-        ),
-        ToolDisplay(
-            id = "5",
-            name = stringResource(Res.string.rtw2_title),
-            description = stringResource(Res.string.tool_shortcut_desc_rtw),
-            iconName = "Wave"
-        ),
-        ToolDisplay(
-            id = "6",
-            name = stringResource(Res.string.ptw_title),
-            description = stringResource(Res.string.tool_shortcut_desc_ptw),
-            iconName = "Clock"
-        ),
-        ToolDisplay(
-            id = "7",
-            name = stringResource(Res.string.wo2_title),
-            description = stringResource(Res.string.tool_shortcut_desc_wo),
-            iconName = "Trophy"
-        ),
-        ToolDisplay(
-            id = "8",
-            name = stringResource(Res.string.ftf_title),
-            description = stringResource(Res.string.tool_shortcut_desc_ftf),
-            iconName = "Cloud"
-        ),
-        ToolDisplay(
-            id = "9",
-            name = stringResource(Res.string.rc_title),
-            description = "Track your flight anxiety expectations vs reality",
-            iconName = "Chart"
-        ),
-        ToolDisplay(
-            id = "10",
-            name = "Safety Facts",
-            description = "Learn about aviation safety statistics",
-            iconName = "Shield"
-        ),
-        ToolDisplay(
-            id = "11",
-            name = stringResource(Res.string.am_title),
-            description = "Practice acceptance and mindfulness",
-            iconName = "Meditation"
-        ),
-        ToolDisplay(
-            id = "12",
-            name = "Self Compassion",
-            description = "Be kind to yourself during anxiety",
-            iconName = "Heart"
-        ),
-        ToolDisplay(
-            id = "13",
-            name = stringResource(Res.string.ct_title),
-            description = "Challenge catastrophic thinking patterns",
-            iconName = "Brain"
-        ),
-        ToolDisplay(
-            id = "14",
-            name = stringResource(Res.string.voice_settings_title),
-            description = "Configure voice guidance settings",
-            iconName = "Voice"
-        )
-    )
+    val tools = AppContent.tools
 
     val navTools = stringResource(Res.string.nav_tools)
 
@@ -187,7 +98,7 @@ fun ToolsScreen(
  */
 @Composable
 fun ToolCard(
-    tool: ToolDisplay,
+    tool: Tool,
     onClick: () -> Unit
 ) {
     ElevatedCard(
@@ -223,17 +134,21 @@ fun ToolCard(
 
             Text(
                 textAlign = TextAlign.Center,
-                text = tool.name,
+                text = stringResource(tool.nameRes),
                 style = MaterialTheme.typography.titleSmall,
                 color = MaterialTheme.colorScheme.onSurface,
-                fontWeight = FontWeight.Bold
+                fontWeight = FontWeight.Bold,
+                maxLines = 2,
+                overflow = TextOverflow.Ellipsis
             )
 
             Text(
-                text = tool.description,
+                text = stringResource(tool.descriptionRes),
                 style = MaterialTheme.typography.bodySmall,
                 color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.7f),
-                textAlign = TextAlign.Center
+                textAlign = TextAlign.Center,
+                maxLines = 2,
+                overflow = TextOverflow.Ellipsis
             )
         }
     }

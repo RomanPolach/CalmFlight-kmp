@@ -9,6 +9,7 @@ import com.romanpolach.peacefulflight.kmp.viewmodel.GuidedInterventionViewModel
 import com.romanpolach.peacefulflight.kmp.viewmodel.LearnViewModel
 import com.romanpolach.peacefulflight.kmp.viewmodel.MainViewModel
 import com.romanpolach.peacefulflight.kmp.viewmodel.RidingTheWaveViewModel
+import com.romanpolach.peacefulflight.kmp.viewmodel.RealityCheckViewModel
 import com.romanpolach.peacefulflight.kmp.viewmodel.SosViewModel
 import com.romanpolach.peacefulflight.kmp.viewmodel.ToolsViewModel
 import io.ktor.client.HttpClient
@@ -50,7 +51,7 @@ val commonModule = module {
     factory { GForceViewModel(get()) }
     factory { RidingTheWaveViewModel(get()) }
     factory { GuidedInterventionViewModel(get()) }
-    // test comment
+    factory { RealityCheckViewModel(get()) }
 }
 
 /**

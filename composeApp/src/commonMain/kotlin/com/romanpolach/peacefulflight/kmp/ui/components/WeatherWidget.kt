@@ -25,7 +25,6 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -34,6 +33,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.romanpolach.peacefulflight.kmp.data.weather.WeatherStringKeys
 import com.romanpolach.peacefulflight.kmp.model.WeatherUiState
 import org.jetbrains.compose.resources.StringResource
 import org.jetbrains.compose.resources.stringResource
@@ -41,7 +41,9 @@ import peacefulflight.composeapp.generated.resources.Res
 import peacefulflight.composeapp.generated.resources.weather_check_btn
 import peacefulflight.composeapp.generated.resources.weather_error_generic
 import peacefulflight.composeapp.generated.resources.weather_error_location
+import peacefulflight.composeapp.generated.resources.weather_error_offline
 import peacefulflight.composeapp.generated.resources.weather_retry_btn
+import peacefulflight.composeapp.generated.resources.weather_wind_label
 import peacefulflight.composeapp.generated.resources.weather_widget_title
 
 @Composable
@@ -51,8 +53,6 @@ fun WeatherWidget(
     onRetry: () -> Unit,
     isMetric: Boolean
 ) {
-    val scope = rememberCoroutineScope()
-
     Card(
         modifier = Modifier.fillMaxWidth(),
         colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surfaceContainer),
@@ -148,12 +148,14 @@ fun WeatherWidget(
                     }
                 }
             } else {
-                // Weather Data Display
                 Row(
                     verticalAlignment = Alignment.CenterVertically
                 ) {
-                    val temp =
-                        if (isMetric) "${weatherState.temperature.toInt()}°C" else "${(weatherState.temperature * 9 / 5 + 32).toInt()}°F"
+                    val temp = if (isMetric) {
+                        "${weatherState.temperature.toInt()}\u00B0C"
+                    } else {
+                        "${(weatherState.temperature * 9 / 5 + 32).toInt()}\u00B0F"
+                    }
                     Text(
                         text = temp,
                         style = MaterialTheme.typography.headlineMedium,
@@ -170,10 +172,13 @@ fun WeatherWidget(
                                 fontWeight = FontWeight.SemiBold
                             )
                         }
-                        val windSpeedText =
-                            if (isMetric) "${weatherState.windSpeed.toInt()} km/h" else "${(weatherState.windSpeed * 0.621371).toInt()} mph"
+                        val windSpeedText = if (isMetric) {
+                            "${weatherState.windSpeed.toInt()} km/h"
+                        } else {
+                            "${(weatherState.windSpeed * 0.621371).toInt()} mph"
+                        }
                         Text(
-                            text = "Wind: $windSpeedText",
+                            text = "${stringResource(Res.string.weather_wind_label)}: $windSpeedText",
                             style = MaterialTheme.typography.bodyMedium,
                             color = MaterialTheme.colorScheme.onSurface
                         )
@@ -182,17 +187,17 @@ fun WeatherWidget(
 
                 Spacer(modifier = Modifier.height(12.dp))
 
-                // Passenger Message
                 if (weatherState.passengerMessage.isNotEmpty()) {
                     Box(
                         modifier = Modifier
                             .fillMaxWidth()
                             .clip(RoundedCornerShape(8.dp))
                             .background(
-                                if (weatherState.isGoodForTakeoff)
+                                if (weatherState.isGoodForTakeoff) {
                                     MaterialTheme.colorScheme.primary.copy(alpha = 0.2f)
-                                else
+                                } else {
                                     MaterialTheme.colorScheme.error.copy(alpha = 0.2f)
+                                }
                             )
                             .padding(12.dp)
                     ) {
@@ -211,8 +216,9 @@ fun WeatherWidget(
 @Composable
 private fun resolveErrorString(key: String): StringResource {
     return when (key) {
-        "weather_error_location" -> Res.string.weather_error_location
-        "weather_error_generic" -> Res.string.weather_error_generic
+        WeatherStringKeys.ERROR_LOCATION -> Res.string.weather_error_location
+        WeatherStringKeys.ERROR_OFFLINE -> Res.string.weather_error_offline
+        WeatherStringKeys.ERROR_GENERIC -> Res.string.weather_error_generic
         else -> Res.string.weather_error_generic
     }
 }

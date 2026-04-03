@@ -3,6 +3,7 @@ package com.romanpolach.peacefulflight.kmp.ui.components
 import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.BoxWithConstraints
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -28,12 +29,21 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Path
 import androidx.compose.ui.graphics.drawscope.Stroke
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextOverflow
+import androidx.compose.ui.unit.sp
 import androidx.compose.ui.unit.dp
+import com.romanpolach.peacefulflight.kmp.ui.theme.TealSoft
 import com.romanpolach.peacefulflight.kmp.utils.GForceStatus
 import com.romanpolach.peacefulflight.kmp.viewmodel.GForceUiState
 import org.jetbrains.compose.resources.stringResource
 import peacefulflight.composeapp.generated.resources.Res
 import peacefulflight.composeapp.generated.resources.g_force_monitor
+import peacefulflight.composeapp.generated.resources.gforce_current_label
+import peacefulflight.composeapp.generated.resources.gforce_explanation
+import peacefulflight.composeapp.generated.resources.gforce_explanation_title
+import peacefulflight.composeapp.generated.resources.gforce_max_label
+import peacefulflight.composeapp.generated.resources.gforce_min_label
+import peacefulflight.composeapp.generated.resources.gforce_safe_range
 import peacefulflight.composeapp.generated.resources.perfectly_safe
 import peacefulflight.composeapp.generated.resources.safe_operating_zone
 import peacefulflight.composeapp.generated.resources.status_bumpy
@@ -79,7 +89,7 @@ fun GForceMonitorCard(
                     )
                     Row(verticalAlignment = Alignment.CenterVertically) {
                         Text(
-                            text = "Current: ",
+                            text = stringResource(Res.string.gforce_current_label) + ": ",
                             style = MaterialTheme.typography.bodyMedium,
                             color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.6f)
                         )
@@ -101,7 +111,7 @@ fun GForceMonitorCard(
                 ) {
                     Row(verticalAlignment = Alignment.CenterVertically) {
                         Text(
-                            text = "Min: ",
+                            text = stringResource(Res.string.gforce_min_label) + ": ",
                             style = MaterialTheme.typography.bodySmall,
                             color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.5f)
                         )
@@ -114,7 +124,7 @@ fun GForceMonitorCard(
                     }
                     Row(verticalAlignment = Alignment.CenterVertically) {
                         Text(
-                            text = "Max: ",
+                            text = stringResource(Res.string.gforce_max_label) + ": ",
                             style = MaterialTheme.typography.bodySmall,
                             color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.5f)
                         )
@@ -130,18 +140,23 @@ fun GForceMonitorCard(
                 Spacer(modifier = Modifier.height(12.dp))
             }
 
-            Box(
+            BoxWithConstraints(
                 modifier = Modifier
                     .height(if (isCompact) 150.dp else 300.dp)
                     .fillMaxWidth()
                     .clip(RoundedCornerShape(8.dp))
                     .background(Color.Black.copy(alpha = 0.3f))
             ) {
+                val graphHeight = if (isCompact) 150.dp else 300.dp
+                val line25Top = graphHeight / 6
+                val label25Top = (line25Top - 18.dp).coerceAtLeast(6.dp)
+
+                val graphBackground = MaterialTheme.colorScheme.onSecondaryContainer
+
                 // Real-time Graph
                 Canvas(modifier = Modifier.fillMaxSize()) {
                     val width = size.width
                     val height = size.height
-                    val graphBackground = Color(0xFF1A1C1E) // Match original app deep dark
 
                     // Map Y axis: 0.0G -> Height, 3.0G -> 0
                     val mapY = { g: Float ->
@@ -149,50 +164,49 @@ fun GForceMonitorCard(
                         height - (clamped / 3.0f * height)
                     }
 
-                    // Safe Zone (0 to 2.5G)
-                    drawRect(
-                        color = graphBackground,
-                        topLeft = Offset(0f, mapY(2.5f)),
-                        size = Size(width, mapY(0f) - mapY(2.5f))
-                    )
-
-                    // Unsafe Zone (Above 2.5G)
+                    val unsafeZoneTop = mapY(3.0f)
+                    val unsafeZoneBottom = mapY(2.5f)
                     drawRect(
                         color = Color(0xFFFF6B6B).copy(alpha = 0.15f),
-                        topLeft = Offset(0f, mapY(3.0f)),
-                        size = Size(width, mapY(2.5f) - mapY(3.0f))
+                        topLeft = Offset(0f, unsafeZoneTop),
+                        size = Size(width, unsafeZoneBottom - unsafeZoneTop)
                     )
 
-                    // Normal Zone Grid (0.8 to 1.2G)
+                    val safeZoneTop = mapY(2.5f)
+                    val safeZoneBottom = mapY(0f)
+                    drawRect(
+                        color = graphBackground,
+                        topLeft = Offset(0f, safeZoneTop),
+                        size = Size(width, safeZoneBottom - safeZoneTop)
+                    )
+
                     drawRect(
                         brush = Brush.verticalGradient(
                             colors = listOf(
-                                Color.Transparent,
-                                Color.White.copy(alpha = 0.05f),
-                                Color.White.copy(alpha = 0.05f),
-                                Color.Transparent
+                                graphBackground.copy(alpha = 0.1f),
+                                graphBackground.copy(alpha = 0.3f),
+                                graphBackground.copy(alpha = 0.3f),
+                                graphBackground.copy(alpha = 0.1f)
                             ),
                             startY = mapY(1.2f),
                             endY = mapY(0.8f)
                         )
                     )
 
-                    // Reference Lines
                     drawLine(
                         color = Color(0xFFFF6B6B).copy(alpha = 0.6f),
                         start = Offset(0f, mapY(2.5f)),
                         end = Offset(width, mapY(2.5f)),
-                        strokeWidth = 2.dp.toPx()
+                        strokeWidth = 3.dp.toPx()
                     )
 
                     drawLine(
-                        color = Color(0xFF00BDD6).copy(alpha = 0.3f),
+                        color = TealSoft.copy(alpha = 0.5f),
                         start = Offset(0f, mapY(1.0f)),
                         end = Offset(width, mapY(1.0f)),
-                        strokeWidth = 1.dp.toPx()
+                        strokeWidth = 2.dp.toPx()
                     )
 
-                    // History Plot
                     if (uiState.history.isNotEmpty()) {
                         val path = Path()
                         val stepX = width / 300f
@@ -210,15 +224,41 @@ fun GForceMonitorCard(
 
                         drawPath(
                             path = path,
-                            color = Color(0xFF00BDD6), // Teal
-                            style = Stroke(width = 2.dp.toPx())
+                            color = TealSoft,
+                            style = Stroke(width = 3.dp.toPx())
                         )
                     }
                 }
 
+                if (!isCompact) {
+                    Text(
+                        text = "3.0G",
+                        color = Color(0xFFC71313).copy(alpha = 0.8f),
+                        style = MaterialTheme.typography.bodySmall,
+                        fontWeight = FontWeight.Bold,
+                        modifier = Modifier
+                            .align(Alignment.TopStart)
+                            .padding(start = 10.dp, top = 8.dp)
+                    )
+                }
+
+                Text(
+                    text = "2.5G",
+                    color = Color(0xFFC71313).copy(alpha = 0.6f),
+                    style = MaterialTheme.typography.bodySmall,
+                    fontWeight = FontWeight.Bold,
+                    maxLines = 1,
+                    overflow = TextOverflow.Clip,
+                    modifier = Modifier
+                        .align(Alignment.TopStart)
+                        .padding(start = 10.dp, top = label25Top)
+                        .background(graphBackground.copy(alpha = 0.85f), RoundedCornerShape(4.dp))
+                        .padding(horizontal = 4.dp, vertical = 1.dp)
+                )
+
                 Text(
                     text = stringResource(Res.string.safe_operating_zone),
-                    color = MaterialTheme.colorScheme.primary.copy(alpha = 0.4f),
+                    color = MaterialTheme.colorScheme.primary.copy(alpha = 0.5f),
                     style = MaterialTheme.typography.bodySmall,
                     modifier = Modifier.align(Alignment.Center)
                 )
@@ -235,17 +275,42 @@ fun GForceMonitorCard(
                 modifier = Modifier.align(Alignment.CenterHorizontally)
             )
 
-            Spacer(modifier = Modifier.height(8.dp))
+            Spacer(modifier = Modifier.height(12.dp))
 
-            // Message
             Text(
-                text = if (uiState.status == GForceStatus.SMOOTH)
-                    stringResource(Res.string.perfectly_safe)
-                else
-                    "Movement is normal and safe.",
-                style = MaterialTheme.typography.bodyMedium,
-                color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.7f),
+                text = stringResource(Res.string.gforce_safe_range),
+                style = MaterialTheme.typography.titleMedium,
+                color = MaterialTheme.colorScheme.primary,
+                fontWeight = FontWeight.Bold,
                 modifier = Modifier.align(Alignment.CenterHorizontally)
+            )
+        }
+    }
+}
+
+@Composable
+fun GForceExplanationCard() {
+    Card(
+        colors = CardDefaults.cardColors(
+            containerColor = MaterialTheme.colorScheme.surfaceContainer.copy(alpha = 0.7f)
+        ),
+        modifier = Modifier.fillMaxWidth()
+    ) {
+        Column(modifier = Modifier.padding(16.dp)) {
+            Text(
+                text = stringResource(Res.string.gforce_explanation_title),
+                style = MaterialTheme.typography.titleMedium,
+                color = MaterialTheme.colorScheme.primary,
+                fontWeight = FontWeight.Bold
+            )
+
+            Spacer(modifier = Modifier.height(12.dp))
+
+            Text(
+                text = stringResource(Res.string.gforce_explanation),
+                style = MaterialTheme.typography.bodyMedium,
+                color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.9f),
+                lineHeight = 24.sp
             )
         }
     }

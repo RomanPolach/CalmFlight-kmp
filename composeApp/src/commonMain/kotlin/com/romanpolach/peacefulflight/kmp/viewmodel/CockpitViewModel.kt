@@ -4,6 +4,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.romanpolach.peacefulflight.kmp.data.preferences.SettingsRepository
 import com.romanpolach.peacefulflight.kmp.data.weather.WeatherRepository
+import com.romanpolach.peacefulflight.kmp.data.weather.WeatherStringKeys
 import com.romanpolach.peacefulflight.kmp.model.CockpitUiState
 import com.romanpolach.peacefulflight.kmp.model.FlightStatus
 import com.romanpolach.peacefulflight.kmp.model.WeatherUiState
@@ -76,7 +77,7 @@ class CockpitViewModel(
             if (permissionState != PermissionState.GRANTED) {
                 val result = permissionManager.requestPermission(Permission.LOCATION)
                 if (result != PermissionState.GRANTED) {
-                    setWeatherError("weather_error_location")
+                    setWeatherError(WeatherStringKeys.ERROR_LOCATION)
                     return@launch
                 }
             }
@@ -85,7 +86,7 @@ class CockpitViewModel(
             if (location != null) {
                 fetchWeather(location.latitude, location.longitude)
             } else {
-                setWeatherError("weather_error_location")
+                setWeatherError(WeatherStringKeys.ERROR_LOCATION)
             }
         }
     }

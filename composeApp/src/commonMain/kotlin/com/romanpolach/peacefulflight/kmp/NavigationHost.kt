@@ -224,11 +224,15 @@ fun NavigationHost(
         }
 
         composable(Screen.RealityCheck.route) {
-            PlaceholderScreen("Reality Check", "Compare fear vs reality")
+            com.romanpolach.peacefulflight.kmp.ui.screens.RealityCheckScreen(
+                onBackClick = { navController.popBackStack() }
+            )
         }
 
         composable(Screen.SafetyFacts.route) {
-            PlaceholderScreen("Safety Facts", "Aviation safety statistics")
+            com.romanpolach.peacefulflight.kmp.ui.screens.SafetyFactsScreen(
+                onBackClick = { navController.popBackStack() }
+            )
         }
 
         composable(Screen.AcceptanceMeditation.route) {
@@ -284,11 +288,24 @@ fun NavigationHost(
         }
 
         composable(Screen.VoiceSettings.route) {
-            PlaceholderScreen("Voice Settings", "Preview TTS voices")
+            com.romanpolach.peacefulflight.kmp.ui.screens.VoiceSettingsScreen(
+                onBackClick = { navController.popBackStack() }
+            )
         }
 
         composable(Screen.HelpOptions.route) {
-            PlaceholderScreen("Help Options", "See how this app can help")
+            com.romanpolach.peacefulflight.kmp.ui.screens.HelpOptionsScreen(
+                onBackClick = { navController.popBackStack() },
+                onNavigateToGForce = { navController.navigate(Screen.GForceMonitorStandalone.route) },
+                onNavigateToRidingTheWave = { navController.navigate(Screen.RidingTheWave.route) },
+                onNavigateToPostponeTheWorry = { navController.navigate(Screen.PostponeTheWorry.route) },
+                onNavigateToWorryOlympics = { navController.navigate(Screen.WorryOlympics.route) },
+                onNavigateToFacingTheFear = { navController.navigate(Screen.FacingTheFear.route) },
+                onNavigateToRealityCheck = { navController.navigate(Screen.RealityCheck.route) },
+                onNavigateToSafetyFacts = { navController.navigate(Screen.SafetyFacts.route) },
+                onNavigateToAcceptanceMeditation = { navController.navigate(Screen.AcceptanceMeditation.route) },
+                onNavigateToSelfCompassion = { navController.navigate(Screen.SelfCompassion.route) }
+            )
         }
 
         composable(
@@ -304,24 +321,3 @@ fun NavigationHost(
     }
 }
 
-/**
- * Temporary placeholder screen for screens not yet migrated
- */
-@Composable
-fun PlaceholderScreen(
-    title: String,
-    subtitle: String
-) {
-    Box(
-        modifier = Modifier
-            .fillMaxSize()
-            .padding(16.dp),
-        contentAlignment = Alignment.Center
-    ) {
-        Text(
-            text = "$title\n\n$subtitle",
-            style = MaterialTheme.typography.headlineMedium,
-            color = MaterialTheme.colorScheme.onBackground
-        )
-    }
-}

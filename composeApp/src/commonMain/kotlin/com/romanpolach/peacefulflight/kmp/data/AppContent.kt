@@ -34,6 +34,11 @@ import peacefulflight.composeapp.generated.resources.flight_q8
 import peacefulflight.composeapp.generated.resources.ftf_title
 import peacefulflight.composeapp.generated.resources.g_force_monitor
 import peacefulflight.composeapp.generated.resources.gforce_explanation_title
+import peacefulflight.composeapp.generated.resources.help_option_am_desc
+import peacefulflight.composeapp.generated.resources.help_option_rc_desc
+import peacefulflight.composeapp.generated.resources.help_option_sca_desc
+import peacefulflight.composeapp.generated.resources.help_option_sf_desc
+import peacefulflight.composeapp.generated.resources.help_option_wo_title
 import peacefulflight.composeapp.generated.resources.img_flight
 import peacefulflight.composeapp.generated.resources.img_landing
 import peacefulflight.composeapp.generated.resources.img_takeoff
@@ -64,6 +69,8 @@ import peacefulflight.composeapp.generated.resources.ram_air_turbine_a320
 import peacefulflight.composeapp.generated.resources.rc_empty_title
 import peacefulflight.composeapp.generated.resources.rc_title
 import peacefulflight.composeapp.generated.resources.rtw2_title
+import peacefulflight.composeapp.generated.resources.safety_subtitle
+import peacefulflight.composeapp.generated.resources.safety_title
 import peacefulflight.composeapp.generated.resources.sca_title
 import peacefulflight.composeapp.generated.resources.takeoff_a1
 import peacefulflight.composeapp.generated.resources.takeoff_a3
@@ -77,10 +84,23 @@ import peacefulflight.composeapp.generated.resources.takeoff_q5
 import peacefulflight.composeapp.generated.resources.takeoff_q6
 import peacefulflight.composeapp.generated.resources.takeoff_q7
 import peacefulflight.composeapp.generated.resources.takeoff_q8
+import peacefulflight.composeapp.generated.resources.tool_card_desc_am
+import peacefulflight.composeapp.generated.resources.tool_card_desc_ct
+import peacefulflight.composeapp.generated.resources.tool_card_desc_ftf
+import peacefulflight.composeapp.generated.resources.tool_card_desc_gforce
+import peacefulflight.composeapp.generated.resources.tool_card_desc_ptw
+import peacefulflight.composeapp.generated.resources.tool_card_desc_rc
+import peacefulflight.composeapp.generated.resources.tool_card_desc_rtw
+import peacefulflight.composeapp.generated.resources.tool_card_desc_sca
+import peacefulflight.composeapp.generated.resources.tool_card_desc_sf
+import peacefulflight.composeapp.generated.resources.tool_card_title_ct
+import peacefulflight.composeapp.generated.resources.tool_card_desc_voice
+import peacefulflight.composeapp.generated.resources.tool_card_desc_wo
 import peacefulflight.composeapp.generated.resources.tool_shortcut_desc_ftf
 import peacefulflight.composeapp.generated.resources.tool_shortcut_desc_ptw
 import peacefulflight.composeapp.generated.resources.tool_shortcut_desc_rtw
 import peacefulflight.composeapp.generated.resources.tool_shortcut_desc_wo
+import peacefulflight.composeapp.generated.resources.voice_settings_desc
 import peacefulflight.composeapp.generated.resources.voice_settings_title
 import peacefulflight.composeapp.generated.resources.wing_flex_787
 import peacefulflight.composeapp.generated.resources.wo2_title
@@ -184,15 +204,16 @@ object AppContent {
     )
 
     val tools = listOf(
-        Tool("3", Res.string.g_force_monitor, Res.string.gforce_explanation_title, "Graph"),
-        Tool("5", Res.string.rtw2_title, Res.string.tool_shortcut_desc_rtw, "Wave"),
-        Tool("6", Res.string.ptw_title, Res.string.tool_shortcut_desc_ptw, "Clock"),
-        Tool("7", Res.string.wo2_title, Res.string.tool_shortcut_desc_wo, "Trophy"),
-        Tool("8", Res.string.ftf_title, Res.string.tool_shortcut_desc_ftf, "Cloud"),
-        Tool("9", Res.string.rc_title, Res.string.rc_empty_title, "Chart"),
-        Tool("11", Res.string.am_title, Res.string.am_title, "Meditation"),
-        Tool("12", Res.string.sca_title, Res.string.sca_title, "Heart"),
-        Tool("13", Res.string.ct_title, Res.string.ct_title, "Brain"),
-        Tool("14", Res.string.voice_settings_title, Res.string.voice_settings_title, "Voice")
+        Tool("3", Res.string.g_force_monitor, Res.string.tool_card_desc_gforce, "Graph"),
+        Tool("5", Res.string.rtw2_title, Res.string.tool_card_desc_rtw, "Wave"),
+        Tool("6", Res.string.ptw_title, Res.string.tool_card_desc_ptw, "Clock"),
+        Tool("7", Res.string.help_option_wo_title, Res.string.tool_card_desc_wo, "Trophy"),
+        Tool("8", Res.string.ftf_title, Res.string.tool_card_desc_ftf, "Cloud"),
+        Tool("9", Res.string.rc_title, Res.string.tool_card_desc_rc, "Chart"),
+        Tool("10", Res.string.safety_title, Res.string.tool_card_desc_sf, "Shield"),
+        Tool("11", Res.string.am_title, Res.string.tool_card_desc_am, "Meditation"),
+        Tool("12", Res.string.sca_title, Res.string.tool_card_desc_sca, "Heart"),
+        Tool("13", Res.string.tool_card_title_ct, Res.string.tool_card_desc_ct, "Brain"),
+        Tool("14", Res.string.voice_settings_title, Res.string.tool_card_desc_voice, "Voice")
     )
 }
