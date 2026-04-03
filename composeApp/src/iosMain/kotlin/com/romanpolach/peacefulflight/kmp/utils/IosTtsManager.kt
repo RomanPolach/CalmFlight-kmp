@@ -5,14 +5,14 @@ import kotlinx.cinterop.ExperimentalForeignApi
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
-import platform.AVFoundation.AVSpeechBoundaryImmediate
-import platform.AVFoundation.AVSpeechSynthesisVoice
-import platform.AVFoundation.AVSpeechSynthesizer
-import platform.AVFoundation.AVSpeechSynthesizerDelegateProtocol
-import platform.AVFoundation.AVSpeechUtterance
-import platform.AVFoundation.AVSpeechUtteranceDefaultSpeechRate
-import platform.AVFoundation.AVSpeechUtteranceMaximumSpeechRate
-import platform.AVFoundation.AVSpeechUtteranceMinimumSpeechRate
+import platform.AVFAudio.AVSpeechBoundaryImmediate
+import platform.AVFAudio.AVSpeechSynthesisVoice
+import platform.AVFAudio.AVSpeechSynthesizer
+import platform.AVFAudio.AVSpeechSynthesizerDelegateProtocol
+import platform.AVFAudio.AVSpeechUtterance
+import platform.AVFAudio.AVSpeechUtteranceDefaultSpeechRate
+import platform.AVFAudio.AVSpeechUtteranceMaximumSpeechRate
+import platform.AVFAudio.AVSpeechUtteranceMinimumSpeechRate
 import platform.darwin.NSObject
 
 @OptIn(ExperimentalForeignApi::class)

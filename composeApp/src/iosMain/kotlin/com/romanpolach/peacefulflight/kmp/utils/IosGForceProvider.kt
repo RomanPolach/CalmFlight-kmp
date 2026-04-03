@@ -1,6 +1,7 @@
 package com.romanpolach.peacefulflight.kmp.utils
 
 import kotlinx.cinterop.ExperimentalForeignApi
+import kotlinx.cinterop.useContents
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -32,9 +33,9 @@ class IosGForceProvider : GForceProvider {
         motionManager.startAccelerometerUpdatesToQueue(NSOperationQueue.mainQueue) { data, _ ->
             val acceleration = data?.acceleration ?: return@startAccelerometerUpdatesToQueue
 
-            val x = acceleration.x.toFloat()
-            val y = acceleration.y.toFloat()
-            val z = acceleration.z.toFloat()
+            val (x, y, z) = acceleration.useContents {
+                Triple(x.toFloat(), y.toFloat(), z.toFloat())
+            }
 
             val currentRaw = sqrt((x * x + y * y + z * z).toDouble()).toFloat() * 9.81f
             smoothedValue = (currentRaw * alpha) + (smoothedValue * (1f - alpha))
