@@ -2,10 +2,11 @@ package com.romanpolach.peacefulflight.kmp.utils
 
 import com.romanpolach.peacefulflight.kmp.data.preferences.SettingsRepository
 import kotlinx.cinterop.ExperimentalForeignApi
+import kotlinx.cinterop.ObjCSignatureOverride
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
-import platform.AVFAudio.AVSpeechBoundaryImmediate
+import platform.AVFAudio.AVSpeechBoundary
 import platform.AVFAudio.AVSpeechSynthesisVoice
 import platform.AVFAudio.AVSpeechSynthesizer
 import platform.AVFAudio.AVSpeechSynthesizerDelegateProtocol
@@ -61,7 +62,7 @@ class IosTtsManager(
 
     override fun stop() {
         if (synthesizer.speaking) {
-            synthesizer.stopSpeakingAtBoundary(AVSpeechBoundaryImmediate)
+            synthesizer.stopSpeakingAtBoundary(AVSpeechBoundary.AVSpeechBoundaryImmediate)
         }
         _isSpeaking.value = false
     }
@@ -83,6 +84,7 @@ class IosTtsManager(
         settingsRepository.setTtsSpeechRate(speechRate)
     }
 
+    @ObjCSignatureOverride
     override fun speechSynthesizer(
         synthesizer: AVSpeechSynthesizer,
         didStartSpeechUtterance: AVSpeechUtterance
@@ -90,6 +92,7 @@ class IosTtsManager(
         _isSpeaking.value = true
     }
 
+    @ObjCSignatureOverride
     override fun speechSynthesizer(
         synthesizer: AVSpeechSynthesizer,
         didFinishSpeechUtterance: AVSpeechUtterance
@@ -99,6 +102,7 @@ class IosTtsManager(
         }
     }
 
+    @ObjCSignatureOverride
     override fun speechSynthesizer(
         synthesizer: AVSpeechSynthesizer,
         didCancelSpeechUtterance: AVSpeechUtterance
