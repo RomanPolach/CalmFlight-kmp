@@ -167,6 +167,11 @@ fun ContentCard(
     val containsHtml = remember(text) {
         text.contains("<b>") || text.contains("<i>") || text.contains("<br>") || text.contains("</")
     }
+    val renderedText = if (containsHtml) {
+        htmlToAnnotatedString(text)
+    } else {
+        articleTextToAnnotatedString(text)
+    }
 
     Box(
         modifier = modifier
@@ -176,12 +181,12 @@ fun ContentCard(
             .padding(12.dp)
     ) {
         Text(
-            text = if (containsHtml) htmlToAnnotatedString(text) else AnnotatedString(text),
+            text = renderedText,
             style = MaterialTheme.typography.bodyLarge.copy(
                 fontSize = 20.sp,
                 lineHeight = 30.sp
             ),
-            color = MaterialTheme.colorScheme.onSurface,
+            color = if (containsHtml) Color.Unspecified else MaterialTheme.colorScheme.onSurface,
             textAlign = TextAlign.Start
         )
     }
@@ -243,6 +248,42 @@ private fun htmlToAnnotatedString(html: String): AnnotatedString {
     }
 }
 
+@Composable
+private fun articleTextToAnnotatedString(text: String): AnnotatedString {
+    val headingColor = MaterialTheme.colorScheme.primary
+
+    return remember(text, headingColor) {
+        buildAnnotatedString {
+            val normalizedText = text.replace("\r\n", "\n")
+            val paragraphs = normalizedText.split("\n\n")
+
+            paragraphs.forEachIndexed { index, paragraph ->
+                val trimmedParagraph = paragraph.trim()
+                if (trimmedParagraph.isNotEmpty()) {
+                    val start = length
+                    append(trimmedParagraph)
+                    val end = length
+
+                    if (isStandaloneArticleHeading(trimmedParagraph)) {
+                        addStyle(
+                            style = SpanStyle(
+                                color = headingColor,
+                                fontWeight = FontWeight.Bold
+                            ),
+                            start = start,
+                            end = end
+                        )
+                    }
+                }
+
+                if (index < paragraphs.lastIndex) {
+                    append("\n\n")
+                }
+            }
+        }
+    }
+}
+
 private fun AnnotatedString.Builder.appendStyledSegment(
     text: String,
     isBold: Boolean,
@@ -266,6 +307,27 @@ private fun AnnotatedString.Builder.appendStyledSegment(
         start = start,
         end = end
     )
+}
+
+private fun isStandaloneArticleHeading(paragraph: String): Boolean {
+    if (paragraph.isBlank()) return false
+    if (paragraph.contains('\n')) return false
+    if (paragraph.startsWith("-")) return false
+    if (paragraph.endsWith(".") || paragraph.endsWith("!") || paragraph.endsWith("?") || paragraph.endsWith(":")) {
+        return false
+    }
+
+    val words = paragraph.split(Regex("\\s+")).filter { it.isNotBlank() }
+    if (words.isEmpty() || words.size > 8) return false
+    if (paragraph.length > 80) return false
+
+    val lowercaseWords = setOf("and", "or", "the", "of", "to", "for", "in", "on", "at", "a", "an")
+    val titleLikeWords = words.count { word ->
+        val cleanWord = word.trim('"', '\'', ',', ';', '(', ')')
+        cleanWord.firstOrNull()?.isUpperCase() == true || cleanWord.lowercase() in lowercaseWords
+    }
+
+    return titleLikeWords == words.size
 }
 
 /**
