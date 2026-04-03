@@ -7,6 +7,9 @@ on:
     branches: [ main, master ]
   workflow_dispatch:  # Allows manual trigger from GitHub UI
 
+env:
+  FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
+
 jobs:
   build-ios:
     runs-on: macos-15  # macOS Sequoia with Xcode 16 default
@@ -39,7 +42,7 @@ jobs:
         run: chmod +x gradlew
 
       - name: Build shared framework for iOS Simulator
-        run: ./gradlew :composeApp:linkDebugFrameworkIosSimulatorArm64
+        run: ./gradlew :composeApp:linkDebugFrameworkIosSimulatorArm64 --stacktrace
 
       - name: Show Xcode version
         run: xcodebuild -version

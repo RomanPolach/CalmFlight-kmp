@@ -1,6 +1,7 @@
 package com.romanpolach.peacefulflight.kmp.utils
 
 import com.romanpolach.peacefulflight.kmp.data.preferences.SettingsRepository
+import kotlinx.cinterop.ExperimentalForeignApi
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -14,6 +15,7 @@ import platform.AVFoundation.AVSpeechUtteranceMaximumSpeechRate
 import platform.AVFoundation.AVSpeechUtteranceMinimumSpeechRate
 import platform.darwin.NSObject
 
+@OptIn(ExperimentalForeignApi::class)
 class IosTtsManager(
     private val settingsRepository: SettingsRepository
 ) : NSObject(), TtsManager, AVSpeechSynthesizerDelegateProtocol {

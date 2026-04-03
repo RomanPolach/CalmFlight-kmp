@@ -1,5 +1,6 @@
 package com.romanpolach.peacefulflight.kmp.utils
 
+import kotlinx.cinterop.ExperimentalForeignApi
 import kotlinx.cinterop.useContents
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.suspendCancellableCoroutine
@@ -15,6 +16,7 @@ import platform.Foundation.NSError
 import platform.darwin.NSObject
 import kotlin.coroutines.resume
 
+@OptIn(ExperimentalForeignApi::class)
 class IosLocationProvider : LocationProvider {
 
     private val locationManager = CLLocationManager().apply {

@@ -1,5 +1,6 @@
 package com.romanpolach.peacefulflight.kmp.utils
 
+import kotlinx.cinterop.ExperimentalForeignApi
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -8,6 +9,7 @@ import platform.CoreMotion.CMMotionManager
 import platform.Foundation.NSOperationQueue
 import kotlin.math.sqrt
 
+@OptIn(ExperimentalForeignApi::class)
 class IosGForceProvider : GForceProvider {
 
     private val _currentGForce = MutableStateFlow(1.0f)

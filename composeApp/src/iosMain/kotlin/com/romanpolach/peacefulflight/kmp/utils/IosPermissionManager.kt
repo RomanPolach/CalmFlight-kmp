@@ -1,5 +1,6 @@
 package com.romanpolach.peacefulflight.kmp.utils
 
+import kotlinx.cinterop.ExperimentalForeignApi
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.suspendCancellableCoroutine
 import kotlinx.coroutines.withContext
@@ -14,6 +15,7 @@ import platform.CoreLocation.kCLAuthorizationStatusRestricted
 import platform.darwin.NSObject
 import kotlin.coroutines.resume
 
+@OptIn(ExperimentalForeignApi::class)
 class IosPermissionManager : PermissionManager {
 
     private val locationManager = CLLocationManager()
