@@ -22,13 +22,19 @@ class AndroidGForceProvider(context: Context) : GForceProvider, SensorEventListe
     private val _gForceHistory = MutableStateFlow<List<Float>>(emptyList())
     override val gForceHistory: StateFlow<List<Float>> = _gForceHistory.asStateFlow()
 
+    private val _isSensorAvailable = MutableStateFlow(accelerometer != null)
+    override val isSensorAvailable: StateFlow<Boolean> = _isSensorAvailable.asStateFlow()
+
     private var smoothedValue = 9.81f
     private val alpha = 0.05f
     private val maxHistorySize = 300
 
     override fun startTracking() {
         accelerometer?.let {
+            _isSensorAvailable.value = true
             sensorManager.registerListener(this, it, SensorManager.SENSOR_DELAY_GAME)
+        } ?: run {
+            _isSensorAvailable.value = false
         }
     }
 

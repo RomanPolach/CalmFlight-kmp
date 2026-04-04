@@ -94,6 +94,8 @@
     <string name="gforce_current_label">Current</string>
     <string name="gforce_min_label">Min</string>
     <string name="gforce_max_label">Max</string>
+    <string name="gforce_unavailable_title">Live Readings Unavailable</string>
+    <string name="gforce_unavailable_message">This device is not providing motion data right now, so the G-force monitor cannot show live readings.</string>
 
     <!-- G-Force Overlay -->
     <string name="gforce_overlay_channel_name">G-Force Monitor</string>

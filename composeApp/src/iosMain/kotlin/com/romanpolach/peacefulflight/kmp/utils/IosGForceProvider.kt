@@ -13,22 +13,29 @@ import kotlin.math.sqrt
 @OptIn(ExperimentalForeignApi::class)
 class IosGForceProvider : GForceProvider {
 
+    private val motionManager = CMMotionManager()
+
     private val _currentGForce = MutableStateFlow(1.0f)
     override val currentGForce: StateFlow<Float> = _currentGForce.asStateFlow()
 
     private val _gForceHistory = MutableStateFlow<List<Float>>(emptyList())
     override val gForceHistory: StateFlow<List<Float>> = _gForceHistory.asStateFlow()
 
-    private val motionManager = CMMotionManager()
+    private val _isSensorAvailable = MutableStateFlow(motionManager.accelerometerAvailable)
+    override val isSensorAvailable: StateFlow<Boolean> = _isSensorAvailable.asStateFlow()
     private var smoothedValue = 9.81f
     private val alpha = 0.05f
     private val maxHistorySize = 300
 
     override fun startTracking() {
         if (!motionManager.accelerometerAvailable || motionManager.accelerometerActive) {
+            if (!motionManager.accelerometerAvailable) {
+                _isSensorAvailable.value = false
+            }
             return
         }
 
+        _isSensorAvailable.value = true
         motionManager.accelerometerUpdateInterval = 1.0 / 30.0
         motionManager.startAccelerometerUpdatesToQueue(NSOperationQueue.mainQueue) { data, _ ->
             val acceleration = data?.acceleration ?: return@startAccelerometerUpdatesToQueue

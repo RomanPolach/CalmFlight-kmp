@@ -18,7 +18,8 @@ data class GForceUiState(
     val minReading: Float = 1.0f,
     val maxReading: Float = 1.0f,
     val status: GForceStatus = GForceStatus.SMOOTH,
-    val history: List<Float> = emptyList()
+    val history: List<Float> = emptyList(),
+    val isSensorAvailable: Boolean = true
 )
 
 class GForceViewModel(
@@ -44,12 +45,18 @@ class GForceViewModel(
             }
         }
 
+        viewModelScope.launch {
+            gForceProvider.isSensorAvailable.collect { isAvailable ->
+                _uiState.update { it.copy(isSensorAvailable = isAvailable) }
+            }
+        }
+
         // Stability timer (peak hold effect for display)
         viewModelScope.launch {
             while (true) {
                 delay(500L)
                 val history = _uiState.value.history
-                if (history.isNotEmpty()) {
+                if (_uiState.value.isSensorAvailable && history.isNotEmpty()) {
                     val recentCount = minOf(history.size, 10)
                     val recentHistory = history.takeLast(recentCount)
                     val maxDeviation = recentHistory.maxByOrNull { abs(it - 1.0f) } ?: 1.0f

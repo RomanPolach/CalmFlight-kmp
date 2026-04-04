@@ -8,6 +8,7 @@ import kotlinx.coroutines.flow.StateFlow
 interface GForceProvider {
     val gForceHistory: StateFlow<List<Float>>
     val currentGForce: StateFlow<Float>
+    val isSensorAvailable: StateFlow<Boolean>
 
     fun startTracking()
     fun stopTracking()
