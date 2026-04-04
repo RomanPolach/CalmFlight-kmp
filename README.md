@@ -1,6 +1,6 @@
-# Peaceful Flight KMP
+# Calm Flight KMP
 
-Peaceful Flight is a Kotlin Multiplatform rewrite of the original Android app for people who feel anxious about flying. The app is built to help during the whole flight journey: before takeoff, during cruise, in turbulence, and while landing.
+Calm Flight is a Kotlin Multiplatform rewrite of the original Android app for people who feel anxious about flying. The app is built to help during the whole flight journey: before takeoff, during cruise, in turbulence, and while landing.
 
 Instead of being just a collection of generic calming tips, the app focuses on practical in-flight support. It combines education about normal flight sensations with short intervention tools that can be used when anxiety rises in real time.
 
