@@ -64,7 +64,13 @@ jobs:
             CODE_SIGNING_REQUIRED=NO \
             CODE_SIGNING_ALLOWED=NO
 
-      - name: Upload build artifacts
+      - name: Create Appetize zip
+        working-directory: iosApp
+        run: |
+          cd build/Build/Products/Debug-iphonesimulator
+          ditto -c -k --sequesterRsrc --keepParent PeacefulFlight.app PeacefulFlight-appetize.zip
+
+      - name: Upload simulator app folder
         uses: actions/upload-artifact@v4
         if: success()
         with:
@@ -72,3 +78,10 @@ jobs:
           path: iosApp/build/Build/Products/Debug-iphonesimulator/
           retention-days: 7
 
+      - name: Upload Appetize zip
+        uses: actions/upload-artifact@v4
+        if: success()
+        with:
+          name: ios-appetize-build
+          path: iosApp/build/Build/Products/Debug-iphonesimulator/PeacefulFlight-appetize.zip
+          retention-days: 7
