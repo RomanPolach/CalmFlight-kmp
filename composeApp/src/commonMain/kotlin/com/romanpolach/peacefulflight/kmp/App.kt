@@ -28,7 +28,10 @@ import androidx.compose.ui.unit.dp
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import com.romanpolach.peacefulflight.kmp.model.ThemeMode
+import com.romanpolach.peacefulflight.kmp.ui.components.FlightEndedConfirmationDialog
+import com.romanpolach.peacefulflight.kmp.ui.components.FlightModeDialog
 import com.romanpolach.peacefulflight.kmp.ui.navigation.BottomNavItem
+import com.romanpolach.peacefulflight.kmp.ui.navigation.Screen
 import com.romanpolach.peacefulflight.kmp.ui.theme.PeacefulFlightTheme
 import com.romanpolach.peacefulflight.kmp.viewmodel.MainViewModel
 import org.jetbrains.compose.resources.stringResource
@@ -75,6 +78,7 @@ fun MainScreen(
 
     val isFlightActive by viewModel.isFlightActive.collectAsState()
     var showDialog by remember { mutableStateOf(false) }
+    var showFlightEndedConfirmation by remember { mutableStateOf(false) }
 
     val bottomNavItems = listOf(
         BottomNavItem.Cockpit,
@@ -82,6 +86,32 @@ fun MainScreen(
         BottomNavItem.Sos,
         BottomNavItem.Tools
     )
+
+    if (showDialog) {
+        FlightModeDialog(
+            isStart = !isFlightActive,
+            onConfirm = { rating ->
+                if (isFlightActive) {
+                    viewModel.endFlight(rating)
+                    showFlightEndedConfirmation = true
+                } else {
+                    viewModel.startFlight(rating)
+                }
+                showDialog = false
+            },
+            onDismiss = { showDialog = false }
+        )
+    }
+
+    if (showFlightEndedConfirmation) {
+        FlightEndedConfirmationDialog(
+            onGoToRealityCheck = {
+                showFlightEndedConfirmation = false
+                navController.navigate(Screen.RealityCheck.route)
+            },
+            onDismiss = { showFlightEndedConfirmation = false }
+        )
+    }
 
     // Check if current route is a root tab screen
     val isRootTabScreen = currentRoute in bottomNavItems.map { it.route }
@@ -160,13 +190,7 @@ fun MainScreen(
         floatingActionButton = {
             if (isRootTabScreen) {
                 FloatingActionButton(
-                    onClick = {
-                        if (isFlightActive) {
-                            viewModel.endFlight(5) // Default middle value for now
-                        } else {
-                            viewModel.startFlight(5)
-                        }
-                    },
+                    onClick = { showDialog = true },
                     containerColor = if (isFlightActive)
                         MaterialTheme.colorScheme.error
                     else

@@ -8,6 +8,7 @@ import kotlinx.coroutines.suspendCancellableCoroutine
 import kotlinx.coroutines.withContext
 import platform.CoreLocation.CLGeocoder
 import platform.CoreLocation.CLLocation
+import platform.CoreLocation.CLPlacemark
 import platform.Foundation.NSError
 import kotlin.coroutines.resume
 
@@ -25,7 +26,7 @@ class IosCityNameResolver : CityNameResolver {
                         return@reverseGeocodeLocation
                     }
 
-                    val placemark = placemarks?.firstOrNull()
+                    val placemark = placemarks?.firstOrNull() as? CLPlacemark
                     val cityName = if (error == null) {
                         placemark?.locality
                             ?: placemark?.subAdministrativeArea

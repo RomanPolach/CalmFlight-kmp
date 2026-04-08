@@ -100,7 +100,12 @@ class IosTtsManager(
             .speechVoices()
             .mapNotNull { it as? AVSpeechSynthesisVoice }
             .filter { voice -> voice.language.startsWith("en", ignoreCase = true) }
-            .sortedWith(compareBy({ it.language }, { it.name }))
+            .sortedWith(
+                compareBy<AVSpeechSynthesisVoice>(
+                    { voice -> voice.language },
+                    { voice -> voice.name }
+                )
+            )
             .map { voice ->
                 TtsVoiceOption(
                     id = voice.identifier,
@@ -135,7 +140,6 @@ class IosTtsManager(
                 options = AVAudioSessionCategoryOptionDuckOthers,
                 error = null
             )
-            audioSession.setActive(true, error = null)
         }
     }
 }
