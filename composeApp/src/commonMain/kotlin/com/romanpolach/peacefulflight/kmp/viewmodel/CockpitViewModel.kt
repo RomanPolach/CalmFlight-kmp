@@ -12,6 +12,7 @@ import com.romanpolach.peacefulflight.kmp.utils.FlightModeManager
 import com.romanpolach.peacefulflight.kmp.utils.Permission
 import com.romanpolach.peacefulflight.kmp.utils.PermissionManager
 import com.romanpolach.peacefulflight.kmp.utils.PermissionState
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -74,21 +75,44 @@ class CockpitViewModel(
             _uiState.update { it.copy(weather = WeatherUiState(isLoading = true)) }
 
             val permissionState = permissionManager.checkPermission(Permission.LOCATION)
+            var permissionJustGranted = false
             if (permissionState != PermissionState.GRANTED) {
                 val result = permissionManager.requestPermission(Permission.LOCATION)
                 if (result != PermissionState.GRANTED) {
                     setWeatherError(WeatherStringKeys.ERROR_LOCATION)
                     return@launch
                 }
+                permissionJustGranted = true
             }
 
-            val location = locationProvider.getCurrentLocation()
+            val location = fetchLocationWithRetry(
+                attempts = if (permissionJustGranted) 3 else 2,
+                delayMillis = 800L
+            )
             if (location != null) {
                 fetchWeather(location.latitude, location.longitude)
             } else {
                 setWeatherError(WeatherStringKeys.ERROR_LOCATION)
             }
         }
+    }
+
+    private suspend fun fetchLocationWithRetry(
+        attempts: Int,
+        delayMillis: Long
+    ): com.romanpolach.peacefulflight.kmp.utils.Location? {
+        repeat(attempts) { attempt ->
+            val location = locationProvider.getCurrentLocation()
+            if (location != null) {
+                return location
+            }
+
+            if (attempt < attempts - 1) {
+                delay(delayMillis)
+            }
+        }
+
+        return null
     }
 
     fun toggleSettingsDialog(show: Boolean) {
