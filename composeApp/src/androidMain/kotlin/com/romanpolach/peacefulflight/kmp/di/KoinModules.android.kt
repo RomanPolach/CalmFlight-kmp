@@ -5,7 +5,9 @@ import com.romanpolach.peacefulflight.kmp.data.local.RoomBuilder
 import com.romanpolach.peacefulflight.kmp.data.preferences.AndroidSettingsRepository
 import com.romanpolach.peacefulflight.kmp.data.preferences.SettingsRepository
 import com.romanpolach.peacefulflight.kmp.utils.AndroidGForceProvider
+import com.romanpolach.peacefulflight.kmp.utils.AndroidCityNameResolver
 import com.romanpolach.peacefulflight.kmp.utils.AndroidLocationProvider
+import com.romanpolach.peacefulflight.kmp.utils.CityNameResolver
 import com.romanpolach.peacefulflight.kmp.utils.AndroidPermissionManager
 import com.romanpolach.peacefulflight.kmp.utils.GForceProvider
 import com.romanpolach.peacefulflight.kmp.utils.LocationProvider
@@ -24,6 +26,7 @@ actual fun platformModule(): Module = module {
 
     // Location
     single<LocationProvider> { AndroidLocationProvider(get()) }
+    single<CityNameResolver> { AndroidCityNameResolver(get()) }
 
     // Permissions
     single<PermissionManager> { AndroidPermissionManager(get()) }

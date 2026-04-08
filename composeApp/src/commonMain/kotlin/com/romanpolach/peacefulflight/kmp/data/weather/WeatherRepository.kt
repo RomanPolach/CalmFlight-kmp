@@ -2,6 +2,7 @@ package com.romanpolach.peacefulflight.kmp.data.weather
 
 import com.romanpolach.peacefulflight.kmp.model.WeatherResponse
 import com.romanpolach.peacefulflight.kmp.model.WeatherUiState
+import com.romanpolach.peacefulflight.kmp.utils.CityNameResolver
 import io.ktor.client.HttpClient
 import io.ktor.client.call.body
 import io.ktor.client.network.sockets.ConnectTimeoutException
@@ -17,7 +18,8 @@ import kotlinx.io.IOException
  */
 class WeatherRepository(
     private val httpClient: HttpClient,
-    private val settings: com.romanpolach.peacefulflight.kmp.data.preferences.SettingsRepository
+    private val settings: com.romanpolach.peacefulflight.kmp.data.preferences.SettingsRepository,
+    private val cityNameResolver: CityNameResolver
 ) {
     companion object {
         private const val BASE_URL = "https://api.open-meteo.com/v1/forecast"
@@ -32,6 +34,7 @@ class WeatherRepository(
             }.body()
 
             val current = response.current
+            val cityName = cityNameResolver.getCityName(lat, lon)
 
             val isCalmWeather = current.weatherCode <= 3
             val isLowWind = current.windSpeed < 25.0
@@ -62,7 +65,7 @@ class WeatherRepository(
                 isGoodForTakeoff = isGoodForTakeoff,
                 messageKey = messageKey,
                 messageArgs = messageArgs,
-                cityName = null // Geocoding will be platform-specific
+                cityName = cityName
             )
         } catch (_: UnresolvedAddressException) {
             WeatherUiState(

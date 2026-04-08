@@ -5,6 +5,8 @@ import com.romanpolach.peacefulflight.kmp.data.local.RoomBuilder
 import com.romanpolach.peacefulflight.kmp.data.preferences.IosSettingsRepository
 import com.romanpolach.peacefulflight.kmp.data.preferences.SettingsRepository
 import com.romanpolach.peacefulflight.kmp.utils.GForceProvider
+import com.romanpolach.peacefulflight.kmp.utils.CityNameResolver
+import com.romanpolach.peacefulflight.kmp.utils.IosCityNameResolver
 import com.romanpolach.peacefulflight.kmp.utils.IosGForceProvider
 import com.romanpolach.peacefulflight.kmp.utils.IosLocationProvider
 import com.romanpolach.peacefulflight.kmp.utils.IosPermissionManager
@@ -26,6 +28,7 @@ actual fun platformModule(): Module = module {
 
     // Location
     single<LocationProvider> { IosLocationProvider() }
+    single<CityNameResolver> { IosCityNameResolver() }
 
     // Permissions
     single<PermissionManager> { IosPermissionManager() }

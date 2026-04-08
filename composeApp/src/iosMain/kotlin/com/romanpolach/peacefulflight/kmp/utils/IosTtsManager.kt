@@ -5,6 +5,10 @@ import kotlinx.cinterop.ExperimentalForeignApi
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import platform.AVFAudio.AVAudioSession
+import platform.AVFAudio.AVAudioSessionCategoryOptionDuckOthers
+import platform.AVFAudio.AVAudioSessionCategoryPlayback
+import platform.AVFAudio.AVAudioSessionModeSpokenAudio
 import platform.AVFAudio.AVSpeechBoundary
 import platform.AVFAudio.AVSpeechSynthesisVoice
 import platform.AVFAudio.AVSpeechSynthesizer
@@ -36,6 +40,7 @@ class IosTtsManager(
     private var speechRate: Float = settingsRepository.getTtsSpeechRate()
 
     init {
+        configureAudioSession()
         synthesizer.delegate = speechDelegate
         refreshAvailableVoices()
         restoreSavedVoice()
@@ -52,6 +57,7 @@ class IosTtsManager(
         }
 
         stop()
+        configureAudioSession()
 
         val voice = resolveVoice()
         val iosRate = speechRate.toIosSpeechRate()
@@ -117,6 +123,19 @@ class IosTtsManager(
         return when {
             preferredId != null -> AVSpeechSynthesisVoice.voiceWithIdentifier(preferredId)
             else -> AVSpeechSynthesisVoice.voiceWithLanguage("en-US")
+        }
+    }
+
+    private fun configureAudioSession() {
+        runCatching {
+            val audioSession = AVAudioSession.sharedInstance()
+            audioSession.setCategory(
+                category = AVAudioSessionCategoryPlayback,
+                mode = AVAudioSessionModeSpokenAudio,
+                options = AVAudioSessionCategoryOptionDuckOthers,
+                error = null
+            )
+            audioSession.setActive(true, error = null)
         }
     }
 }

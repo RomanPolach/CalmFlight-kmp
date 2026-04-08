@@ -39,7 +39,7 @@ val commonModule = module {
     single { FlightModeManager(get()) }
 
     // Repositories
-    single { WeatherRepository(get(), get()) }
+    single { WeatherRepository(get(), get(), get()) }
     single { FlightRepository(get()) }
 
     // ViewModels
